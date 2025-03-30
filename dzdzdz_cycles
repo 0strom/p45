@@ -1,0 +1,206 @@
+// ConsoleApplication6.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+ //#1
+    int sum = 0;
+    for (int i = 1; i <= 10; i++) {
+        sum += i; 
+        cout << "Sum: " << sum << "\n";
+    }
+
+
+//#2
+    int startCelsius, endCelsius, step;
+
+    cout << "From Celsius: ";
+    cin >> startCelsius;
+    cout << "To Celsius: ";
+    cin >> endCelsius;
+    cout << "Step: ";
+    cin >> step;
+
+    cout << "Celsius\tFahrenheit" << "\n";
+
+
+    for (int celsius = startCelsius; celsius <= endCelsius; celsius += step) {
+        int fahrenheit = (celsius * 9 / 5) + 32;
+        cout << celsius << "\t" << fahrenheit << "\n";
+    }
+
+ //#3
+
+
+    //#4
+
+    int num;
+    int factorial = 1; 
+    cout << "Enter your number: ";
+    cin >> num;
+
+    if (num < 0) {
+        cout << "Error!" << "\n";
+    }
+    else {
+        for (int i = 1; i <= num; ++i) {
+            factorial *= i;
+        }
+        cout << "Factorial of " << num << " = " << factorial << "\n";
+    }
+
+
+//#5
+
+    int numdigit;
+    int digitCount = 0, digitSum = 0;
+
+    cout << "Enter Number: ";
+    cin >> numdigit;
+
+    int originalNum = numdigit;
+    if (numdigit < 0) {
+        numdigit = -numdigit; 
+    }
+
+    while (numdigit > 0) {
+        digitSum += numdigit % 10;  
+        numdigit /= 10;              
+        digitCount = digitCount +1;          
+    }
+
+    if (originalNum < 0) {
+        digitCount--;
+    }
+    cout << "Nums: " << digitCount << "\n";
+    cout << "Sum: " << digitSum << "\n";
+
+
+//#6
+
+    int nummm;
+
+    cout << "Enter your number: ";
+    cin >> nummm;
+
+    cout << "Number " << nummm << " is divided by: ";
+    for (int i = 1; i <= nummm; i++) {
+        if (nummm % i == 0) {  
+            cout << i << " ";
+        }
+    }
+    cout << "\n";
+
+//#7
+
+    int numbb;
+
+    cout << "Enter number: ";
+    cin >> numbb;
+    bool isnormal = true;
+    if (numbb <= 1) {
+        isnormal = false;
+    }
+    else {
+        for (int i = 2; i * i <= numbb; i++) {
+            if (numbb % i == 0) {
+                isnormal = false;
+                break;  
+            }
+        }
+    }
+    if (isnormal) {
+        cout << num << "is normal" << "\n";
+    }
+    else {
+        cout << num << "isn't" << "\n";
+    }
+
+    return 0;
+
+
+    //#8
+
+    int numb;
+
+    cout << "Enter number: ";
+    cin >> numb;
+
+    int prev = -1;  
+    bool Consecutive = false;  
+
+    
+    while (numb > 0) {
+        int current = numb % 10;  
+        if (prev != -1 && abs(prev - current) == 1) {
+            Consecutive = true;  
+            break; 
+        }
+        prev = current;  
+        numb /= 10;  
+    }
+
+    if (Consecutive) {
+        cout << "Has consecutive numbers" << "\n";
+    }
+    else {
+        cout << "Doesn't have consecutive numbers" << "\n";
+    }
+
+    
+
+
+//#9
+
+    int numr, reverseNum = 0, origNum;
+
+    cout << "Enter Number: ";
+    cin >> numr;
+
+    origNum = numr;  
+    for (; numr != 0; numr /= 10) {
+        reverseNum = reverseNum * 10 + numr % 10;
+    }
+    if (origNum == reverseNum) {
+        cout << "Polindrom" << "\n";
+    }
+    else {
+        cout << "Not a Polindrom" << "\n";
+    }
+
+//#10
+
+
+    //#11
+
+
+    double stipendia, rasxody, obshie_rasxody, neobxodimo_u_roditelya;
+    int mesiacy = 12; 
+
+  
+    cout << "Mounthly salary ";
+    cin >> stipendia;
+    cout << "Money to live in mounth: ";
+    cin >> rasxody;
+
+    obshie_rasxody = 0;
+   
+    for (int i = 1; i <= mesiacy; i++) {
+        obshie_rasxody += rasxody;
+        rasxody *= 1.05;
+    }
+
+    neobxodimo_u_roditelya = obshie_rasxody - stipendia * mesiacy;
+    if (neobxodimo_u_roditelya < 0) {
+        cout << "No need to ask for money" << "\n";
+    }
+    else {
+        cout << "Ask for: " << neobxodimo_u_roditelya << " grn" << "\n";
+    }
+
+
+}
+
