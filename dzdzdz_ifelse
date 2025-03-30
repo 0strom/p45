@@ -1,0 +1,182 @@
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    //#1.1
+    double x1, y1, x2, y2, x, y;
+
+
+    cout << "Top-left(x1, y1): ";
+    cin >> x1 >> y1;
+    cout << "Bottom-right(x2, y2): ";
+    cin >> x2 >> y2;
+    cout << "Point: ";
+    cin >> x >> y;
+
+    if (x >= x1 && x <= x2 && y >= y1 && y <= y2) {
+        cout << "The point is inside" << "\n";
+    }
+    else {
+        cout << "The point is outside" << "\n";
+    }
+
+    //#1.2
+
+    int ticket;
+    cout << "???? Ticket: ";
+    cin >> ticket;
+
+
+    int firstThree = ticket / 1000;
+    int lastThree = ticket % 1000;
+    int sumFirst = (firstThree / 100) + (firstThree / 10 % 10) + (firstThree % 10);
+    int sumLast = (lastThree / 100) + (lastThree / 10 % 10) + (lastThree % 10);
+
+
+    if (sumFirst == sumLast) {
+        cout << "The ticket is lucky!" << "\n";
+    }
+    else {
+        cout << "The ticket isn't lucky." << "\n";
+    }
+
+
+    //#2
+
+    double num1, num2;
+    int want;
+
+    cout << "Enter two numbers: ";
+    cin >> num1 >> num2;
+
+    cout << "Choose an operation: " << "\n";
+    cout << "1. +" << "\n";
+    cout << "2. -" << "\n";
+    cout << "3. *" << "\n";
+    cout << "4. /" << "\n";
+    cout << "5. ^" << "\n";
+
+    cin >> want;
+    switch (want) {
+    case 1:
+        cout << "Result: " << num1 + num2 << "\n";
+        break;
+    case 2:
+        cout << "Result: " << num1 - num2 << "\n";
+        break;
+    case 3:
+        cout << "Result: " << num1 * num2 << "\n";
+        break;
+    case 4:
+        if (num2 != 0) {
+            cout << "Result: " << num1 / num2 << "\n";
+        }
+        else {
+            cout << "Error!" << "\n";
+        }
+        break;
+    case 5:
+        if (int(num2) == 0) {
+            cout << "Error!" << "\n";
+        }
+        else {
+            cout << "Result: " << int(num1) % int(num2) << "\n";
+        }
+        break;
+    }
+
+    //#3
+
+    double number100;
+    cout << "Enter a number: ";
+    cin >> number100;
+    (number100 >= 0 && number100 <= 100) ? cout << "The number is in the range" << "\n" : cout << "The number is not in the range" << "\n";
+
+
+    //#4
+
+    string question;
+    cout << "Ask your question: ";
+    cin >> question;
+
+    int randomAnswer = rand() % 2;
+
+    if (randomAnswer == 0) {
+        cout << "Yes" << "\n";
+    }
+    else {
+        cout << "No" << "\n";
+    }
+
+
+    //#5
+
+    int score = 0;
+    string answer;
+
+    cout << "Question 1: What is the capital of Ukraine?" << "\n";
+    cout << "a) Kyiv" << "\n";
+    cout << "b) Lvyv" << "\n";
+    cout << "c) Odesa" << "\n";
+    cout << "Your answer: ";
+    cin >> answer;
+
+    if (answer == "a") {
+        score = score + 1;
+        cout << "Correct!" << "\n";
+    }
+    else {
+        cout << "Incorrect! Game over." << "\n";
+    }
+
+    cout << "Question 2: What is the formula of water?" << "\n";
+    cout << "a) HO" << "\n";
+    cout << "b) H2O" << "\n";
+    cout << "c) HO2" << "\n";
+    cout << "d) H20" << "\n";
+    cout << "Your answer: ";
+    cin >> answer;
+
+    if (answer == "b") {
+        score = score + 1;
+        cout << "Correct!" << "\n";
+    }
+    else {
+        cout << "Game over" << "\n";
+    }
+    cout << "Question 3: What is this code written on?" << "\n";
+    cout << "a) C" << "\n";
+    cout << "b) Java" << "\n";
+    cout << "c) C++" << "\n";
+    cout << "d) Python" << "\n";
+    cout << "Your answer: ";
+    cin >> answer;
+
+    if (answer == "c") {
+        score = score + 1;
+        cout << "Correct!" << "\n";
+    }
+    else {
+        cout << "Game over" << "\n";
+    }
+
+    cout << "Question 4: Who wrote 'Romeo and Juliet'?" << "\n";
+    cout << "a) Shakespeare" << "\n";
+    cout << "b) Dickens" << "\n";
+    cout << "c) Austen" << "\n";
+    cout << "d) Twain" << "\n";
+    cout << "Your answer: ";
+    cin >> answer;
+
+    if (answer == "a") {
+        score = score + 1;
+        cout << "Correct!" << "\n";
+    }
+    else {
+        cout << "Game over!" << "\n";
+    }
+
+    cout << "Score: " << score << "/4" << "\n";
+}
