@@ -1,0 +1,206 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+	{
+
+	  //#1
+       int grn;
+       cout << "Enter a number in grivna: ";
+	   cin >> grn;
+	   double euro = grn * 0.0222;
+	   double dollar = grn * 0.0239;
+	   double bitcoin = grn * 0.00000029000;
+	   cout << grn << " grn in euro = " << euro << "€" << "\n";
+	   cout << grn << " grn in dollar = " << dollar << "$" << "\n";
+	   cout << grn << " grn in bitcoin = " << bitcoin << "btn" << "\n";
+
+
+	  //#2
+	   int km;
+	   cout << "Enter kilometres: ";
+	   cin >> km;
+	   double nmi = km * 0.0539962;
+	   double mi = km * 0.62137;
+	   cout << km << " km in sea milles = " << nmi << "nmi" << "\n";
+	   cout << km << " km in milles = " << mi << "mi" << "\n";
+
+	  //#3.1
+	 int a, b;
+	 cout << "A: ";
+	 cin >> a;
+	 cout << "B: ";
+	 cin >> b;
+
+	 int c = a;
+	  a = b;
+	  b = c;
+	 cout << "Swap: " << "\n";
+   cout << "a = " << a << ", b = " << b << "\n";
+
+	  //#3.2
+	int a, b;
+	 cout << "A: ";
+	cin >> a;
+	 cout << "B: ";
+	cin >> b;
+
+	  a = a + b;  
+	  b = a - b;  
+	  a = a - b;  
+	  cout << "Swap: " << "\n";
+	  cout << "a = " << a << ", b = " << b << "\n";
+
+	   //#4
+	   int num1, num2;
+	   cout << "??? number: ";
+	   cin >> num1;
+	   cout << "??? number: ";
+	   cin >> num2;
+
+	 
+	   int firstDigit1 = num1 / 100;
+	   int middleDigit1 = (num1 / 10) % 10;
+	   int lastDigit1 = num1 % 10;
+
+	 
+	   int firstDigit2 = num2 / 100;
+	   int middleDigit2 = (num2 / 10) % 10;
+	   int lastDigit2 = num2 % 10;
+
+	  
+	   int temp = middleDigit1;
+	   middleDigit1 = middleDigit2;
+	   middleDigit2 = temp;
+
+	   num1 = firstDigit1 * 100 + middleDigit1 * 10 + lastDigit1;
+	   num2 = firstDigit2 * 100 + middleDigit2 * 10 + lastDigit2;
+
+	   cout << "First number: " << num1 << "\n";;
+	   cout << "Second number: " << num2 << "\n";
+
+	   //#5
+
+	   int fourDigitNumber;
+	   cout << "???? number: ";
+	   cin >> fourDigitNumber;
+
+	   int thousandPlace = fourDigitNumber / 1000;
+	   int hundredPlace = (fourDigitNumber / 100) % 10;
+	   int tenPlace = (fourDigitNumber / 10) % 10;
+	   int onePlace = fourDigitNumber % 10;
+
+	   int sumDigits = thousandPlace + tenPlace;
+	   int differenceDigits = hundredPlace - onePlace;
+
+	
+	   cout << "1 & 3: " << sumDigits << "\n";
+	   cout << "2 & 4: " << differenceDigits << "\n";
+
+
+	//#6
+	   int threeDigitNumber;
+	   cout << "??? number: ";
+	   cin >> threeDigitNumber;
+
+	   int hundredsPlace = threeDigitNumber / 100;
+	   int onesPlace = threeDigitNumber % 10;
+
+	   int newNumber = hundredsPlace * 10 + onesPlace;
+	   cout << "Result: " << newNumber << "\n";
+
+	//#7
+
+
+	   double deposit, annual, monthly;
+	   cout << "Deposit in grn: ";
+	   cin >> deposit;
+	   cout << "Annual rate:  ";
+	   cin >> annual;
+
+	   monthly = (deposit * annual) / (12 * 100);
+	   cout << "Payment of  " << monthly << " grn every month" << "\n";
+
+
+	//#8
+
+	   double pounds, kilograms;
+
+	   cout << "Pounds: ";
+	   cin >> pounds;
+	   kilograms = (pounds * 405.9) / 1000;
+	   cout << pounds << " pounds is " << kilograms << " kg" << "\n";
+
+	   cout << "Kilograms: ";
+	   cin >> kilograms;
+	   pounds = (kilograms * 1000) / 405.9;
+	   cout << kilograms << " kg is " << pounds << " pounds." << "\n";
+
+	//#9
+
+	   int number, reversedNumber;
+	   cout << "??? number: ";
+	   cin >> number;
+
+	   int hundreds = number / 100;
+	   int tens = (number / 10) % 10;
+	   int ones = number % 10;
+
+	   reversedNumber = ones * 100 + tens * 10 + hundreds;
+	   cout << "Revers: " << reversedNumber << "\n";
+
+	//#10
+
+	   double planetMasses[] = { 0.330, 4.87, 0.642, 1898.0, 568.0, 86.8, 102.0, 0.0146 };
+	   int numOfPlanets = 8;
+
+	   
+	   double totalMass = 0;
+	   for (int i = 0; i < numOfPlanets; i++) {
+		   totalMass += planetMasses[i];
+	   }
+
+	   double averageMass = totalMass / numOfPlanets;
+	   double maxMass = planetMasses[0];
+	   for (int i = 1; i < numOfPlanets; i++) {
+		   if (planetMasses[i] > maxMass) {
+			   maxMass = planetMasses[i];
+		   }
+	   }
+	   cout << "Total mass of all planets: " << totalMass << " * 10^24 kg" << "\n";
+	   cout << "Average mass of the planets: " << averageMass << " * 10^24 kg" << "\n";
+
+	  
+
+
+	//#11
+
+	   double length, width, height, P, W, M;
+	   cout << "Length: ";
+	   cin >> length;
+	   cout << "Width: ";
+	   cin >> width;
+	   cout << "Height: ";
+	   cin >> height;
+	   cout << "Amount of paint: ";
+	   cin >> P;
+	   cout << "Percentage of wall area: ";
+	   cin >> W;
+	   cout << "Cost: ";
+	   cin >> M;
+
+	
+	   double wallArea = 2 * (length + width) * height;
+	   double effectiveWallArea = wallArea * (1 - W / 100);
+	   double paintNeeded = effectiveWallArea * P;
+	   double totalCost = paintNeeded * M;
+	   cout << "Total amount of paint: " << paintNeeded << " l" << endl;
+	   cout << "Total cost of the paint: " << totalCost << " grn" << endl;
+
+
+
+
+
+}
