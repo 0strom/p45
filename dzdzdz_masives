@@ -1,0 +1,245 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main() {
+
+	//#1
+	//srand(time(0));
+	int temp = rand();
+
+	const int SIZE = 10;
+	int numbers[SIZE]{};
+	int countt = 0;
+	int arif = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		numbers[i] = rand() % 41 - 20;
+		countt = countt + numbers[i];
+		arif = numbers[i] / SIZE;
+	}
+
+	random_shuffle(numbers, numbers + SIZE);
+
+	for (int element : numbers) {
+		cout << element << ", ";
+	}
+	cout << "\n\n";
+	cout << "Sum of the elements is: " << countt << "\n";
+	cout << "Avarage of the numbers is: " << arif << "\n";
+
+
+	//#2
+
+	const int SIZE2 = 100;
+	int numbers2[SIZE2]{};
+	int chosed;
+
+	cout << "Enter a number from 0 to 100: ";
+	cin >> chosed;
+
+	if (chosed < 0 || chosed > 100) {
+		cout << "Invalid number. Should be between 0 and 100." << "\n";
+		return 1;
+	}
+
+	for (int i = 0; i < SIZE2; i++)
+	{
+		numbers2[i] = rand() % 101;
+	}
+	for (int element : numbers2) {
+		cout << element << ", ";
+	}
+
+	bool found = false;
+
+	for (int i = 0; i < SIZE2; i++) {
+		if (numbers2[i] == chosed) {
+			found = true;
+			break;
+		}
+	}
+
+	if (found) {
+		cout << "You Won! The number " << chosed << " was found." << "\n";
+	}
+	else {
+		cout << "You Lost! The number " << chosed << " wasn't found." << "\n";
+	}
+
+	//#3
+
+	const int SIZE3 = 20;
+	int numbers3[SIZE3]{};
+
+
+	for (int i = 0; i < SIZE3; i++) {
+		numbers3[i] = rand();
+	}
+
+
+	cout << "Exercise 3 random numbers: ";
+	for (int i = 0; i < SIZE3; i++) {
+		cout << numbers3[i] << ", ";
+	}
+	cout << "\n";
+
+
+	int min = numbers3[0], max = numbers3[0];
+	int minIndex = 0, maxIndex = 0;
+
+
+	for (int i = 1; i < SIZE3; i++) {
+		if (numbers3[i] < min) {
+			min = numbers3[i];
+			minIndex = i;
+		}
+		if (numbers3[i] > max) {
+			max = numbers3[i];
+			maxIndex = i;
+		}
+	}
+
+
+	cout << "Min: " << min << " is on " << minIndex << "\n";
+	cout << "Max: " << max << " is on " << maxIndex << "\n";
+
+
+	//#4
+
+	const int SIZE4 = 100; 
+	int arr[SIZE4]{};
+
+	
+	int one = 0, two = 0, three = 0;
+
+	
+	for (int i = 0; i < SIZE4; i++) {
+		arr[i] = rand() % 201; 
+	}
+	for (int element : arr) {
+		cout << element << ", ";
+	}
+	
+	for (int i = 0; i < SIZE4; i++) {
+		if (arr[i] <= 9) {
+			one++; 
+		}
+		else if (arr[i] <= 99) {
+			two++; 
+		}
+		else {
+			three++; 
+		}
+	}
+
+	double p_one = (double)one / SIZE4 * 100;
+	double p_two = (double)two / SIZE4 * 100;
+	double p_three = (double)three / SIZE4 * 100;
+
+	
+	cout << "1: " << one << " (" << p_one << "%)" << "\n";
+	cout << "2: " << two << " (" << p_two << "%)" << "\n";
+	cout << "3: " << three << " (" << p_three << "%)" << "\n";
+
+
+	//#5
+
+	const int N = 10; 
+	const int M = 10; 
+
+	int n[N] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 1001 };
+	int m[M] = { 4, 6, 5, 7, 9, 8, 1001, 11, 12, 13 };
+
+	int common[N]{};
+	int commonSize = 0; 
+	
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			if (n[i] == m[j]) {
+				common[commonSize] = n[i];
+				commonSize++; 
+				break; 
+			}
+		}
+	}
+	cout << "Same elements: ";
+	for (int i = 0; i < commonSize; i++) {
+		cout << common[i] << " ";
+	}
+
+	//#6
+
+
+	const int SIZE6 = 5; 
+	int lottery[SIZE6]{}; 
+	int userNumbers[SIZE6]{}; 
+	int countMatches = 0; 
+
+	for (int i = 0; i < SIZE6; i++) {
+		bool isnew = false;
+		while (!isnew) {
+			int num = rand() % 42 + 1; 
+			isnew = true;
+
+			for (int ii = 0; ii < i; ii++) {
+				if (lottery[ii] == num) {
+					isnew = false;
+					break;
+				}
+			}
+			if (isnew) {
+				lottery[i] = num;
+			}
+		}
+	}
+
+	
+	cout << "Enter 5 numbers from 1 to 42:" << "\n";
+	for (int i = 0; i < SIZE6; i++) {
+		cout << "Number " << i + 1 << ": ";
+		cin >> userNumbers[i];
+
+
+		while (userNumbers[i] < 1 || userNumbers[i] > 42) {
+			cout << "Invalid number(s) try again: ";
+			cin >> userNumbers[i];
+		}
+	}
+
+	for (int i = 0; i < SIZE6; i++) {
+		for (int j = 0; j < SIZE6; j++) {
+			if (userNumbers[i] == lottery[j]) {
+				countMatches++;
+			}
+		}
+	}
+
+	cout << "\nLottery Win: ";
+	for (int i = 0; i < SIZE6; i++) {
+		cout << lottery[i] << " ";
+	}
+	cout << "\n";
+
+	cout << "Your Numbers: ";
+	for (int i = 0; i < SIZE6; i++) {
+		cout << userNumbers[i] << " ";
+	}
+	cout << "\n";
+	cout << "\nNum of correct guesses: " << countMatches << "\n";
+
+	if (countMatches == 3) {
+		cout << "100 credits!" << "\n";
+	}
+	else if (countMatches == 4) {
+		cout << "500 credits!" << "\n";
+	}
+	else if (countMatches == 5) {
+		cout << "2500 credits!" << "\n";
+	}
+	else {
+		cout << "no numbers :( better luck next time!" << "\n";
+	}
+
+}
