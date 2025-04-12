@@ -1,0 +1,124 @@
+#include <iostream>
+#include <cstdlib>  
+#include <windows.h>
+using namespace std;
+
+////////////////////////////1
+void Color() {
+    system("color 04");
+}
+
+void ResetColor() {
+    system("color");
+}
+
+void DrawLine(char symbol, int length, bool isHorizontal) {
+    if (isHorizontal) {
+        Color();
+        for (int i = 0; i < length; i++) {
+            cout << symbol;
+        }
+        ResetColor();
+    }
+    else {
+        for (int i = 0; i < length; i++) {
+            cout << symbol << "\n";
+        }
+    }
+}
+///////////////////////////1
+
+
+////////////////////////////////////////2
+
+
+void Rectangle(int width, int height, char borderChar, char fillChar) {
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+          
+            if (i == 0 || i == height - 1 || j == 0 || j == width - 1) {
+                cout << borderChar;
+            }
+            else {
+            
+                cout << fillChar;
+            }
+        }
+        cout << "\n";
+    }
+}
+//////////////////////////////////////2
+
+
+////////////////////////////////////////3
+
+double Cube(double number3) {
+    return number3 * number3 * number3;
+}
+////////////////////////////////////////3
+
+
+////////////////////////////////////////4
+int IsPrime(int number4) {
+    if (number4 <= 1) {
+        return 0; 
+    }
+    for (int i = 2; i * i <= number4; i++) {
+        if (number4 % i == 0) {
+            return 0; 
+        }
+    }
+}
+////////////////////////////////////////4
+
+
+
+int main() {
+    //////////////////////1
+    DrawLine('@', 20, true);
+    cout << "\n";
+    DrawLine('@', 20, false);
+    //////////////////////1
+
+    //////////////////////2
+    int width, height;
+    char borderChar, fillChar;
+
+    cout << "Enter width of the rectangle: ";
+    cin >> width;
+    cout << "Enter height of the rectangle: ";
+    cin >> height;
+    cout << "Enter the border character: ";
+    cin >> borderChar;
+    cout << "Enter the fill character: ";
+    cin >> fillChar;
+
+    Rectangle(width, height, borderChar, fillChar);
+
+    //////////////////////2
+
+     //////////////////////3
+    double number3;
+
+    cout << "Enter number: ";
+    cin >> number3;
+
+    double result = Cube(number3);
+    cout << "Result: "  << result << "\n";
+    //////////////////////3
+
+    //////////////////////4
+    int number4;
+
+    cout << "Enter a number: ";
+    cin >> number4;
+
+    if (IsPrime(number4)) {
+        cout << number4 << " is a prime number." << "\n";
+    }
+    else {
+        cout << number4 << " isnt a prime number." << "\n";
+    }
+
+    //////////////////////4
+}
