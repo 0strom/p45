@@ -1,0 +1,72 @@
+#include <iostream>
+#include <windows.h>
+using namespace std;
+
+//8
+double CalculateAverage(const int arr[], int size) {
+    if (size == 0) return 0;
+    int sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+    return static_cast<double>(sum) / size;
+}
+
+//9
+void ShowMinMax(const int arr[], int size) {
+    if (size == 0) return;
+
+    int minVal = arr[0], maxVal = arr[0];
+    int minIdx = 0, maxIdx = 0;
+
+    for (int i = 1; i < size; i++) {
+        if (arr[i] < minVal) {
+            minVal = arr[i];
+            minIdx = i;
+        }
+        if (arr[i] > maxVal) {
+            maxVal = arr[i];
+            maxIdx = i;
+        }
+    }
+
+    cout << "Min: " << minVal << " Index " << minIdx << ")\n";
+    cout << "Max: " << maxVal << " Index " << maxIdx << ")\n";
+}
+
+//10
+void ReverseArray(int arr[], int size) {
+    for (int i = 0; i < size / 2; i++) {
+        swap(arr[i], arr[size - i - 1]);
+    }
+}
+
+
+int main() {
+    const int SIZE = 6;
+    int arr[SIZE] = { 12, 5, 8, 21, 3, 14 };
+
+    cout << "Array ";
+    for (int i = 0; i < SIZE; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << "\n";
+
+    //8
+    cout << "\nAvarage\n";
+    cout << "Среднее: " << CalculateAverage(arr, SIZE) << "\n";
+
+    //9
+    cout << "\nMin And Max\n";
+    ShowMinMax(arr, SIZE);
+
+    //10
+    cout << "\nArray Reverse\n";
+    ReverseArray(arr, SIZE);
+
+    cout << "After Reverse: ";
+    for (int i = 0; i < SIZE; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << "\n";
+}
