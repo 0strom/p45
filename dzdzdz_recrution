@@ -1,0 +1,151 @@
+#include <iostream> 
+using namespace std;
+
+// 1) 
+void Nnumber(int n, int current = 1) { 
+	if (current > n) 
+		return; 
+	cout << current << " "; 
+	Nnumber(n, current + 1); }
+
+// 2) 
+void AABB(int a, int b) { 
+    cout << a << " "; 
+	if (a == b) 
+		return; 
+	if (a < b) 
+		AABB(a + 1, b);
+	else 
+		AABB(a - 1, b); }
+
+// 3) 
+bool NumberTwo(int n) { 
+	if (n == 1) 
+		return true; 
+	if (n == 0 || n % 2 != 0) 
+		return false; 
+	return NumberTwo(n / 2); }
+
+// 4) 
+int sumDigits(int n) { 
+	if (n == 0)
+		return 0; 
+	return n % 10 + sumDigits(n / 10); }
+
+// 5) 
+void DigitsReverse(int n) { 
+	cout << n % 10 << " "; 
+if (n >= 10) DigitsReverse(n / 10); }
+
+// 6) 
+void DigitsNonReverse(int n) { 
+	if (n < 10) { cout << n << " "; 
+	return; } 
+	DigitsNonReverse(n / 10); cout << n % 10 << " "; }
+
+// 7) 
+int reverse(int n, int result = 0) { 
+	if (n == 0) return result; 
+	return reverse(n / 10, result * 10 + n % 10); }
+
+// 8)  
+bool Palindrome(int num, int reversed = 0, int original = -1) { 
+	if (original == -1) original = num; 
+	if (num == 0) 
+		return reversed == original; 
+	return Palindrome(num / 10, reversed * 10 + num % 10, original); }
+
+// 9) 
+int fibonacci(int n) { 
+	if (n <= 1) 
+		return n; 
+	return fibonacci(n - 1) + fibonacci(n - 2); }
+
+// 10) 
+int powerNum(int base, int exp) { 
+	if (exp == 0) 
+		return 1; 
+	return base * powerNum(base, exp - 1); }
+
+// 11)  
+int rangeSum(int a, int b) { 
+	if (a > b) return 0; 
+	return a + rangeSum(a + 1, b); }
+
+// 12)  
+int nod(int a, int b) { 
+	if (b == 0)
+		return a; 
+	return nod(b, a % b); }
+
+
+// 14)
+bool path(int** maze, int x, int y, int n, int m) {
+	if (x < 0 || x >= n || y < 0 || y >= m || maze[x][y] == 1) 
+		return false;
+	if (maze[x][y] == 2) 
+		return true;
+	maze[x][y] = 1; 
+	if (path(maze, x + 1, y, n, m)) return true;
+	if (path(maze, x, y + 1, n, m)) return true;
+	if (path(maze, x - 1, y, n, m)) return true;
+	if (path(maze, x, y - 1, n, m)) return true;
+	return false;
+}
+
+
+int main() {
+	cout << "1: "; 
+	Nnumber(5); 
+	cout << "\n";
+
+	cout << "2: ";
+	AABB(5, 1);
+	cout << "\n";
+
+	cout << "3: ";
+	cout << (NumberTwo(3) ? "YES" : "NO") << " ";
+	cout << (NumberTwo(8) ? "YES" : "NO") << "\n";
+
+	cout << "4: ";
+	cout << sumDigits(179) << "\n";
+
+	cout << "5: ";
+	DigitsReverse(179);
+	cout << "\n";
+
+	cout << "6: ";
+	DigitsNonReverse(179);
+	cout << "\n";
+
+	cout << "7: "; 
+	cout << reverse(179) << "\n";
+
+	cout << "8: ";
+	cout << (Palindrome(121) ? "YES" : "NO") << " ";
+	cout << (Palindrome(123) ? "YES" : "NO") << "\n";
+
+	cout << "9: ";
+	cout << fibonacci(6) << "\n";
+
+	cout << "10: ";
+	cout << powerNum(2, 5) << "\n";
+
+	cout << "11: ";
+	cout << rangeSum(3, 7) << "\n";
+
+	cout << "12: ";
+	cout << nod(48, 18) << "\n";
+
+
+	int m = 3; 
+	int** maze = new int* [m];
+	for (int i = 0; i < m; ++i)
+		maze[i] = new int[m];
+	maze[0][0] = 0; maze[0][1] = 0; maze[0][2] = 1;
+	maze[1][0] = 0; maze[1][1] = 1; maze[1][2] = 0;
+	maze[2][0] = 0; maze[2][1] = 0; maze[2][2] = 0;
+
+	cout << "Task 14: Path exists = " << (path(maze, 0, 0, m, m) ? "YES" : "NO") << "\n";
+
+ }
