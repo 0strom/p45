@@ -1,0 +1,176 @@
+#include <iostream>
+#include <windows.h>
+using namespace std;
+
+int main()
+{
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	//int pause = 5;
+
+	//int width = 13;
+	//int height = width;
+	//for (int y = 0; y < height; y++) {
+	//	for (int x = 0; x < width; x++) {
+	//		if (x == 0 || y == 0 ||
+	//			x == width - 1 || y == height - 1 ||
+	//			x == y) {
+	//			SetConsoleTextAttribute(h, 12);
+	//			cout << (char)178;
+	//		}
+	//		else {
+	//			SetConsoleTextAttribute(h, 9);
+	//			cout << ".";
+	//		}
+	//		Sleep(pause);
+	//	}
+	//	cout << "\n";
+	//}
+
+	int n;
+	cout << "Enter height n: ";
+	cin >> n;
+
+	int pause = 30;
+
+	for (int y = 0; y < n; y++) {
+		int width = 2 * n - 1;
+		int left = n - y - 1;
+		int right = n + y - 1;
+
+		for (int x = 0; x < width; x++) {
+			if (x == left || x == right || y == n - 1) {
+				SetConsoleTextAttribute(h, 12);
+				cout << (char)178;
+			}
+			else if (x > left && x < right) {
+				SetConsoleTextAttribute(h, 9);
+				cout << ".";
+			}
+			else {
+				cout << " ";
+			}
+			Sleep(pause);
+		}
+		cout << "\n";
+	}
+	cout << "\n\n\n";
+
+
+	int drawDelay = 20;
+	int size = 9; 
+	int mid = size / 2;
+
+	for (int row = 0; row < size; row++) {
+		int outerSpaces = abs(mid - row);
+		int innerWidth = size - 2 * outerSpaces;
+
+		for (int col = 0; col < size; col++) {
+			if (col == outerSpaces || col == size - outerSpaces - 1) {
+				SetConsoleTextAttribute(h, 12); 
+				cout << (char)178;
+			}
+			else {
+				cout << " ";
+			}
+			Sleep(drawDelay);
+		}
+		cout << "\n";
+	}
+
+	cout << "\n\n\n";
+
+	int delayTime = 50;
+	int gridDimension = 9;
+	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	for (int row = 0; row < gridDimension; row++) {
+		for (int col = 0; col < gridDimension; col++) {
+			if (row == 0 && col < 4) {
+				SetConsoleTextAttribute(consoleHandle, 12);
+				cout << (char)178;
+			}
+			else if (row == 1 && col < 2) {
+				SetConsoleTextAttribute(consoleHandle, 12);
+				cout << (char)178;
+			}
+			else if (row == 2 && (col == 0 || col == 4)) {
+				SetConsoleTextAttribute(consoleHandle, 12);
+				cout << (char)178;
+			}
+			else if (row == 3 && (col == 0 || col == 5)) {
+				SetConsoleTextAttribute(consoleHandle, 12);
+				cout << (char)178;
+			}
+			else if (row == 4 && col == 8) {
+				SetConsoleTextAttribute(consoleHandle, 12);
+				cout << (char)178;
+			}
+			else if (row == 5 && (col == 6 || col == 8)) {
+				SetConsoleTextAttribute(consoleHandle, 12);
+				cout << (char)178;
+			}
+			else if (row == 6 && (col == 5 || col == 8)) {
+				SetConsoleTextAttribute(consoleHandle, 12);
+				cout << (char)178;
+			}
+			else if (row == 7 && (col == 4 || col == 8)) {
+				SetConsoleTextAttribute(consoleHandle, 12);
+				cout << (char)178;
+			}
+			else if (row == 8 && col >= 5 && col < 9) {
+				SetConsoleTextAttribute(consoleHandle, 12);
+				cout << (char)178;
+			}
+			else {
+				SetConsoleTextAttribute(consoleHandle, 0);
+				cout << " ";
+			}
+		}
+		cout << "\n";
+		Sleep(delayTime);
+	}
+
+
+	int drawDelay4 = 20; 
+	int size4 = 9;      
+
+
+	for (int row = 0; row < size4; row++) {
+	
+		for (int col = 0; col < size4; col++) {
+
+			if ((row == 0 && (col >= 1 && col <= 3)) ||  
+				(row == 1 && col == 0) ||                 
+				(row == 1 && col == 4) ||                
+				(row == 2 && col == 0) ||                
+				(row == 2 && col == 4) ||               
+				(row == 3 && col == 0) ||                
+				(row == 3 && col == 4) ||                 
+				(row == 4 && (col >= 1 && col <= 3)) ||   
+				(row == 4 && (col >= 5 && col <= 7)) ||   
+				(row == 5 && col == 4) ||                 
+				(row == 5 && col == 8) ||                
+				(row == 6 && col == 4) ||                 
+				(row == 6 && col == 8) ||               
+				(row == 7 && col == 4) ||                
+				(row == 7 && col == 8) ||                 
+				(row == 8 && (col >= 5 && col <= 7))) {   
+				SetConsoleTextAttribute(h, 12); 
+				cout << (char)178;
+			}
+			else {
+				cout << " "; 
+			}
+			
+			Sleep(drawDelay4);
+		}
+		cout << "\n"; 
+	}
+
+	SetConsoleTextAttribute(h, 7);
+
+}
+
+
+
