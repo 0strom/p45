@@ -1,0 +1,99 @@
+#ifndef MYAARRAY_H
+#define MYAARRAY_H
+
+#include <iostream>
+#include <random> 
+
+using namespace std;
+
+int* allocateArray(int& size) {
+    cout << "Size: ";
+    cin >> size;
+    return new int[size];
+}
+void initRandom(int* array, int size, int min = 0, int max = 100) {
+        for (int i = 0; i < size; ++i) {
+            array[i] = min + rand() % (max - min + 1);
+        }
+}
+
+void printArray(const int* array, int size) {
+    cout << "Array: ";
+    for (int i = 0; i < size; ++i) {
+        cout << array[i] << " ";
+    }
+    cout << '\n';
+}
+
+
+void freeArray(int*& array) {
+    delete[] array;
+    array = nullptr;
+}
+
+void addFront(int*& array, int& size, int value) {
+    int* newArray = new int[size + 1];
+    newArray[0] = value;
+    for (int i = 0; i < size; ++i)
+        newArray[i + 1] = array[i];
+    delete[] array;
+    array = newArray;
+    ++size;
+}
+void addBack(int*& array, int& size, int value) {
+    int* newArray = new int[size + 1];
+    for (int i = 0; i < size; ++i)
+        newArray[i] = array[i];
+    newArray[size] = value;
+    delete[] array;
+    array = newArray;
+    ++size;
+}
+
+void insertAt(int*& array, int& size, int index, int value) {
+    if (index < 0 || index > size) return;
+    int* newArray = new int[size + 1];
+    for (int i = 0; i < index; ++i)
+        newArray[i] = array[i];
+    newArray[index] = value;
+    for (int i = index; i < size; ++i)
+        newArray[i + 1] = array[i];
+    delete[] array;
+    array = newArray;
+    ++size;
+}
+
+void removeFront(int*& array, int& size) {
+    if (size == 0) return;
+    int* newArray = new int[size - 1];
+    for (int i = 1; i < size; ++i)
+        newArray[i - 1] = array[i];
+    delete[] array;
+    array = newArray;
+    --size;
+}
+
+
+void removeBack(int*& array, int& size) {
+    if (size == 0) return;
+    int* newArray = new int[size - 1];
+    for (int i = 0; i < size - 1; ++i)
+        newArray[i] = array[i];
+    delete[] array;
+    array = newArray;
+    --size;
+}
+
+
+void removeAt(int*& array, int& size, int index) {
+    if (index < 0 || index >= size) return;
+    int* newArray = new int[size - 1];
+    for (int i = 0; i < index; ++i)
+        newArray[i] = array[i];
+    for (int i = index + 1; i < size; ++i)
+        newArray[i - 1] = array[i];
+    delete[] array;
+    array = newArray;
+    --size;
+}
+#endif
