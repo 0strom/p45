@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+void printArray1(int* arr, int size) {
+    cout << "[ ";
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << "] \n";
+}
+
+
+int* element(int* arr, int& size, int value, int position) {
+    if (position < 0 || position > size) {
+        cout << "error\n";
+        return arr;
+    }
+
+    int* newArr = new int[size + 1];
+    for (int i = 0; i < position; i++) {
+        newArr[i] = arr[i];
+    }
+
+    int insertIndex = position;
+    newArr[insertIndex] = value;
+
+    for (int i = position; i < size; i++) {
+        newArr[i + 1] = arr[i];
+    }
+
+    delete[] arr;
+    size++;
+    return newArr;
+}
+
+int* removeLastElement(int* arr, int& size) {
+    if (size == 0) {
+        cout << "is empty\n";
+        return arr;
+    }
+
+    int* newArr = new int[size - 1];
+    for (int i = 0; i < size - 1; i++) {
+        newArr[i] = arr[i];
+    }
+
+    delete[] arr;
+    size--;
+    return newArr;
+}
+
+int main() {
+    int size = 5;
+    int* arr = new int[size] { 1, 2, 3, 4, 5 };
+
+    cout << "Array before: ";
+    printArray1(arr, size);
+
+  
+    arr = element(arr, size, 99, 0);
+    cout << "Arrat after 99: ";
+    printArray1(arr, size);
+
+ 
+    arr = element(arr, size, 77, 3);
+    cout << "Array after 77: ";
+    printArray1(arr, size);
+
+  
+    arr = removeLastElement(arr, size);
+    cout << "Array after remove: ";
+    printArray1(arr, size);
+
+    delete[] arr;
+}
