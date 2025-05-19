@@ -23,5 +23,8 @@
     <ClInclude Include="menu.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

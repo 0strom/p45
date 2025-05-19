@@ -2,11 +2,14 @@
 #include <iostream>
 #include <windows.h> // COORD HANDLE SetConsoleTextAttribute SetConsoleCursorPosition
 #include "menu.h"
+#include "game.h"
 #include <conio.h>
 
 using namespace std;
 
-enum GameObject : short { HALL, WALL, COIN, ENEMY, PACMAN };
+//enum GameObject : short {
+//    HALL, WALL, COIN, BIG_COIN, ENEMY, PACMAN
+//};
 enum Color : short {
     BLACK, DARKBLUE, DARKGREEN, TURQUOISE, DARKRED,
     PURPLE, DARKYELLOW, GREY, DARKGREY, BLUE, GREEN,
@@ -16,15 +19,12 @@ enum Key : short {
     LEFT = 75, RIGHT = 77, UP = 72, DOWN = 80,
     ENTER = 13, SPACE = 32, ESCAPE = 27, BACKSPACE = 8
 };
-const int HEIGHT = 20;
-const int WIDTH = 40;
-int map[HEIGHT][WIDTH];
 
 void displayHighScores() {
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
     FILE* file;
-    int error_code = fopen_s(&file, "C:/Users/Denis/Desktop/highscores.txt", "r"); // Use your actual file path
+    int error_code = fopen_s(&file, "C:/Users/Denis/Desktop/highscores.txt", "r"); 
 
     if (error_code == 0 && file != nullptr) {
         char* line = new char[200];
@@ -48,7 +48,7 @@ void displayHighScores() {
 
 
 void showLoadingScreen() {
-    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE); 
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     const int BAR_WIDTH = 50;
 
     system("cls");
@@ -58,52 +58,51 @@ void showLoadingScreen() {
   
 
     const int colorGradient[] = {
-        15, 15, 14, 14, 14, 6, 6  // White to yellow gradient
+        15, 15, 14, 14, 14, 6, 6  
     };
     const int GRADIENT_SIZE = sizeof(colorGradient) / sizeof(colorGradient[0]);
 
-    // Shading gradient: Light → Medium → Heavy (░ → ▒ → ▓ → █)
+    
     const char shadeGradient[] = {
         176, 177, 178, 219  // ░ → ▒ → ▓ → █
     };
     const int SHADE_SIZE = sizeof(shadeGradient) / sizeof(shadeGradient[0]);
 
-    // Compute the color and character for each bar position
+    
     int barColors[BAR_WIDTH];
     char barChars[BAR_WIDTH];
     for (int i = 0; i < BAR_WIDTH; ++i) {
         int colorIndex = (i * GRADIENT_SIZE) / BAR_WIDTH;
         int shadeIndex = (i * SHADE_SIZE) / BAR_WIDTH;
         barColors[i] = colorGradient[colorIndex];
-        barChars[i] = shadeGradient[shadeIndex]; // Use shading from light to heavy
+        barChars[i] = shadeGradient[shadeIndex]; 
     }
 
-    // Draw empty bar
-    std::cout << "Loading: [";
+   
+    cout << "Loading: [";
     for (int i = 0; i < BAR_WIDTH; ++i) std::cout << " ";
-    std::cout << "]\r";
-    std::cout.flush();
+    cout << "]\r";
+    cout.flush();
 
-    // Animate the bar filling
     for (int i = 0; i < BAR_WIDTH; ++i) {
         SetConsoleTextAttribute(h, barColors[i]);
 
-        // Create the position for the console cursor (no need for 'short' here)
+       
         COORD pos;
-        pos.X = 9 + i;  // Adjust for "Loading: ["
+        pos.X = 9 + i;  
         pos.Y = 0;
         SetConsoleCursorPosition(h, pos);
 
-        // Display the respective ASCII block character
-        std::cout << barChars[i];
+        
+       cout << barChars[i];
 
-        std::cout.flush();
-        Sleep(70); // Adjust the speed here
+        cout.flush();
+        Sleep(70); 
     }
 
 
     SetConsoleTextAttribute(h, 7); 
-    std::cout << "\nLoading complete...\n";
+    cout << "\nLoading complete...\n";
     Sleep(1000);
     system("cls");
 }
@@ -134,10 +133,10 @@ void drawPacMan() {
     for (int row = 0; row < pacManHeight; ++row) {
         SetConsoleCursorPosition(h, { pos.X, static_cast<SHORT>(pos.Y + row) });
         SetConsoleTextAttribute(h, 14); 
-        std::cout << pacMan[row];
+        cout << pacMan[row];
     }
 
-    std::cout << "\nPACMAN is ready!\n";
+    cout << "\n-----------------------------------------------------\n";
 }
 
 
@@ -148,13 +147,13 @@ void showMenu() {
 
 
     SetConsoleTextAttribute(h, 10); 
-    cout << "1. ▶ Start Game\n";
+    cout << "1. Start Game\n";
 
     SetConsoleTextAttribute(h, 11); 
-    cout << "2. 🏆 View High Scores\n";
+    cout << "2. View High Scores\n";
 
     SetConsoleTextAttribute(h, 12);
-    cout << "3. ❌ Exit\n";
+    cout << "3. Exit\n";
     
     SetConsoleTextAttribute(h, 14);
     cout << "\nChoose an option: ";
@@ -162,57 +161,61 @@ void showMenu() {
 
 
 
-
-void generateMap() {
-    for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
-            // Set border as WALL
-            if (x == 0 || y == 0 || x == WIDTH - 1 || y == HEIGHT - 1)
-                map[y][x] = GameObject::WALL;
-            // Add some internal walls for the maze structure
-            else if (rand() % 5 == 0)
-                map[y][x] = GameObject::WALL;
-            // Randomly set HALL, COIN, or ENEMY
+void generateMap(Map& map) {
+    for (int y = 0; y < Map::HEIGHT; ++y) {
+        for (int x = 0; x < Map::WIDTH; ++x) {
+            if (x == 0 || y == 0 || x == Map::WIDTH - 1 || y == Map::HEIGHT - 1) {
+                map.grid[y][x] = GameObject::WALL;  
+            }
+            else if (rand() % 7 == 0) {  
+                map.grid[y][x] = GameObject::WALL;
+            }
             else {
-                int randObj = rand() % 10;
-                if (randObj < 6)
-                    map[y][x] = GameObject::HALL;
-                else if (randObj == 6)
-                    map[y][x] = GameObject::COIN;
-                else if (randObj == 7)
-                    map[y][x] = GameObject::ENEMY;
+                int randObj = rand() % 100;  
+
+                if (randObj < 50)
+                    map.grid[y][x] = GameObject::HALL;       // 50% 
+                else if (randObj < 80)
+                    map.grid[y][x] = GameObject::COIN;       // 30% 
+                else if (randObj < 82)
+                    map.grid[y][x] = GameObject::BIG_COIN;   // 2% 
+                else if (randObj < 90)
+                    map.grid[y][x] = GameObject::ENEMY;      // 8% 
                 else
-                    map[y][x] = GameObject::HALL;
+                    map.grid[y][x] = GameObject::HALL;       // 10% extra 
             }
         }
     }
 }
 
-// Function to draw the map
-void drawMap() {
+void drawMap(const Map& map) {
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-    for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
-            switch (map[y][x]) {
+    for (int y = 0; y < Map::HEIGHT; ++y) {
+        for (int x = 0; x < Map::WIDTH; ++x) {
+            switch (map.grid[y][x]) {
             case GameObject::HALL:
                 SetConsoleTextAttribute(h, Color::BLACK);
                 cout << " ";
                 break;
             case GameObject::WALL:
-                SetConsoleTextAttribute(h, Color::BLUE);  // Make walls blue
-                cout << (char)178;  // Wall symbol
+                SetConsoleTextAttribute(h, Color::BLUE);
+                cout << (char)178; 
                 break;
             case GameObject::COIN:
                 SetConsoleTextAttribute(h, Color::YELLOW);
-                cout << ".";
+                cout << ".";  
+                break;
+            case GameObject::BIG_COIN:
+                SetConsoleTextAttribute(h, Color::YELLOW); 
+                cout << "*";
                 break;
             case GameObject::ENEMY:
                 SetConsoleTextAttribute(h, Color::RED);
-                cout << "O";  // Enemy symbol
+                cout << "O";  
                 break;
             case GameObject::PACMAN:
-                SetConsoleTextAttribute(h, Color::YELLOW);  // Make Pac-Man yellow
-                cout << "C";  // Pac-Man symbol (C)
+                SetConsoleTextAttribute(h, Color::YELLOW);
+                cout << "C";  
                 break;
             }
         }
@@ -220,52 +223,43 @@ void drawMap() {
     }
 }
 
-// Function to move Pac-Man
-void movePacman(COORD& pacman, int direction) {
-    // Move Pac-Man based on key input
+
+void movePacman(Map& map, COORD& pacman, int direction) {
     switch (direction) {
     case Key::LEFT:
-        if (map[pacman.Y][pacman.X - 1] != GameObject::WALL) {
-            pacman.X--;
-        }
+        if (map.grid[pacman.Y][pacman.X - 1] != GameObject::WALL) pacman.X--;
         break;
     case Key::RIGHT:
-        if (map[pacman.Y][pacman.X + 1] != GameObject::WALL) {
-            pacman.X++;
-        }
+        if (map.grid[pacman.Y][pacman.X + 1] != GameObject::WALL) pacman.X++;
         break;
     case Key::UP:
-        if (map[pacman.Y - 1][pacman.X] != GameObject::WALL) {
-            pacman.Y--;
-        }
+        if (map.grid[pacman.Y - 1][pacman.X] != GameObject::WALL) pacman.Y--;
         break;
     case Key::DOWN:
-        if (map[pacman.Y + 1][pacman.X] != GameObject::WALL) {
-            pacman.Y++;
-        }
+        if (map.grid[pacman.Y + 1][pacman.X] != GameObject::WALL) pacman.Y++;
         break;
     }
 }
 
-// Function to update the game state
-void updateGame(HANDLE h, COORD pacman, int& score) {
 
-  
-    // Check if Pac-Man collected a coin
-    if (map[pacman.Y][pacman.X] == GameObject::COIN) {
+void updateGame(Map& map, HANDLE h, COORD pacman, int& score) {
+    if (map.grid[pacman.Y][pacman.X] == GameObject::COIN) {
         score++;
-        map[pacman.Y][pacman.X] = GameObject::HALL;  // Replace coin with hall
+        map.grid[pacman.Y][pacman.X] = GameObject::HALL;
     }
 
-    // Check if Pac-Man collided with an enemy
-    if (map[pacman.Y][pacman.X] == GameObject::ENEMY) {
-        SetConsoleCursorPosition(h, { 0, HEIGHT });
+    if (map.grid[pacman.Y][pacman.X] == GameObject::BIG_COIN) {
+        score += 3;  // Big coins give 3 points
+        map.grid[pacman.Y][pacman.X] = GameObject::HALL;
+    }
+
+    if (map.grid[pacman.Y][pacman.X] == GameObject::ENEMY) {
+        SetConsoleCursorPosition(h, { 0, Map::HEIGHT });
         SetConsoleTextAttribute(h, Color::RED);
         cout << "GAME OVER! Final Score: " << score << "\n";
 
-        // ✅ Write the score to file
         FILE* fileOut;
-        int error_code = fopen_s(&fileOut, "C:/Users/Denis/Desktop/highscores.txt", "a"); // Append
+        int error_code = fopen_s(&fileOut, "C:/Users/Denis/Desktop/highscores.txt", "a");
         if (error_code == 0 && fileOut != nullptr) {
             fprintf(fileOut, "%d\n", score);
             fclose(fileOut);
@@ -273,65 +267,52 @@ void updateGame(HANDLE h, COORD pacman, int& score) {
         else {
             cout << "Failed to save high score.\n";
         }
-
-        exit(0);  // End the game
+        exit(0);
     }
 }
+
 // Main game loop
 void startGame() {
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     srand(time(0));
 
-    // Hide cursor
     CONSOLE_CURSOR_INFO cursor;
     cursor.bVisible = false;
     cursor.dwSize = 100;
     SetConsoleCursorInfo(h, &cursor);
 
-    // Initialize map and draw it
-    generateMap();
-    COORD pacman = { 2, 2 }; // Starting position of Pac-Man
+    Map map;
+    generateMap(map);
+    COORD pacman = { 2, 2 };
     int score = 0;
 
-    // Display the score
-    COORD scorePos = { WIDTH + 2, 0 };
+    COORD scorePos = { Map::WIDTH + 2, 0 };
     SetConsoleCursorPosition(h, scorePos);
     SetConsoleTextAttribute(h, Color::GREEN);
     cout << "SCORE: ";
     SetConsoleTextAttribute(h, Color::YELLOW);
     cout << score;
 
-    // Start the game loop
     while (true) {
-        // Draw the game map
         SetConsoleCursorPosition(h, { 0, 0 });
-        drawMap();
+        drawMap(map);
 
-        // Draw Pac-Man
         SetConsoleCursorPosition(h, pacman);
         SetConsoleTextAttribute(h, Color::YELLOW);
         cout << "C";
 
-        // Read player input
         int key = _getch();
-        if (key == 224) {
-            key = _getch();  // To capture arrow keys
-        }
+        if (key == 224) key = _getch();
 
-        // Move Pac-Man based on input
-        movePacman(pacman, key);
+        movePacman(map, pacman, key);
+        updateGame(map, h, pacman, score);
 
-        // Update the game (check for coin collection or game over)
-        updateGame(h, pacman, score);
-
-        // Update the score display
         SetConsoleCursorPosition(h, scorePos);
         SetConsoleTextAttribute(h, Color::GREEN);
         cout << "SCORE: ";
         SetConsoleTextAttribute(h, Color::YELLOW);
         cout << score;
 
-        // Slow down the game loop
         Sleep(100);
     }
 }
@@ -351,21 +332,23 @@ int main() {
 
     while (true) {
         system("cls");
-        drawPacMan();      // Show Pac-Man ASCII art
-        showMenu();        // Show the main menu
+        drawPacMan();      
+        showMenu();        
 
         int choice;
-        cin >> choice;     // Get user's choice
+        cin >> choice;     
 
         switch (choice) {
         case 1:
             system("cls");
-            startGame();   // Start the game
+            startGame();  
+          
             break;
+           
 
         case 2:
             system("cls");
-            displayHighScores();  // Show high scores
+            displayHighScores();  
             cout << "\nPress any key to return to the menu...";
             _getch();             // Wait for input before returning
             break;
@@ -380,6 +363,4 @@ int main() {
             break;
         }
     }
-
-    return 0;
 }
