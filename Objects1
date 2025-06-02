@@ -1,0 +1,216 @@
+#include <iostream>
+using namespace std;
+
+class Guitar {
+public:
+	string color;
+	int strings = 6;
+	string name;
+	string modelname;
+
+	void Play() {
+		cout << name << " is beeing playing...\n";
+	}
+
+	void OutOfTune() {
+		cout << name << " is detuned\n";
+	}
+
+	void Tuned() {
+		cout << name << ": is tuned you can play again\n";
+	}
+};
+
+class Book {
+public:
+	string color;
+	int pages = 10;
+	string name;
+	
+
+	void Read() {
+		cout << name << " is being read...\n";
+	}
+
+	void Buy() {
+		cout << "new book - "  << name << " - is bough\n";
+	}
+
+	void Finish() {
+		cout << name << "is finished go buy a new one!\n";
+	}
+};
+
+
+
+class Drink {
+public:
+	int price = 0.99;
+	string flavour;
+	string brandname;
+
+	void ReadDrink() {
+		cout << brandname << " is the name of it\n";
+	}
+
+	void Drinking() {
+		cout << flavour << " is good\n";
+	}
+
+	void Throw() {
+		cout << brandname << " throw away\n";
+	}
+};
+
+
+class Phone {
+public:
+	int battery = 100;
+	string modelname;
+	string brandname;
+
+	void WatchPhone() {
+		cout << brandname << " so many things to watch\n";
+	}
+
+	void LowBattery() {
+		cout << brandname << " 0%\n";
+		int battery = 0;
+	}
+
+	void Charge() {
+		cout << brandname << " 100%\n";
+		int battery = 100;
+	}
+};
+
+class Door {
+public:
+	string name;
+	string status;
+
+	void Open() {
+		cout << name << " is opened\n";
+	}
+
+	void Close() {
+		cout << name << " is closed\n";
+		int battery = 0;
+	}
+
+	void Broken() {
+		cout << name << " is broken you can not use it!\n";
+	}
+};
+
+class Calculator {
+public:
+	string name;
+
+	void On() {
+		cout << name << " is On\n";
+	}
+
+	void CalculateSum() {
+		int a, b, sum;
+	
+		cout << "Enter first number: ";
+		cin >> a;
+
+		cout << "Enter second number: ";
+		cin >> b;
+
+		cout << name << " is calucating sum...\n";
+		sum = a + b;
+
+		cout << "Sum = " << sum << "\n";
+	}
+
+	void Off() {
+		cout << name << " is off you must tun it on!\n";
+	}
+};
+
+
+
+int main() {
+	Guitar acoustic;
+
+	acoustic.modelname = "Fender";
+	acoustic.name = "Blackie";
+	acoustic.strings = 6;
+
+	acoustic.Play();
+	acoustic.OutOfTune();
+	acoustic.Tuned();
+	acoustic.Play();
+	
+	cout << "\n";
+
+	Book newbook;
+	newbook.name = "Funny Book";
+	newbook.pages = 150;
+
+	newbook.Buy();
+	newbook.Read();
+	newbook.Finish();
+
+	cout << "\n";
+
+	Drink cola;
+	cola.brandname = "Coca-Cola";
+	cola.price = 0.99;
+	cola.flavour = "Cherry";
+
+	cola.ReadDrink();
+	cola.Drinking();
+	cola.Throw();
+
+	cout << "\n";
+
+	Phone myphone;
+	myphone.brandname = "IPHONE";
+	myphone.battery = 99;
+	myphone.modelname = "IPHONE SE";
+
+	myphone.WatchPhone();
+	myphone.LowBattery();
+	myphone.Charge();
+
+	cout << "\n";
+
+	Door kitchendoor;
+	kitchendoor.name = "Pink Door";
+	kitchendoor.status = "closed";
+	
+
+	kitchendoor.Close();
+	kitchendoor.Open();
+	
+	cout << "\n";
+
+	Door balcondoor;
+	balcondoor.name = "White Door";
+	balcondoor.status = "opened";
+
+
+	balcondoor.Open();
+	balcondoor.Close();
+
+	cout << "\n";
+
+	Calculator mycalc;
+	mycalc.name = "Casio 1";
+   
+
+
+	mycalc.Off();
+	mycalc.On();
+	mycalc.CalculateSum();
+	mycalc.Off();
+
+	cout << "\n";
+
+
+
+}
