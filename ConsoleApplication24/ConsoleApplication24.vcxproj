@@ -127,7 +127,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Book.cpp" />
+    <ClCompile Include="Calculator.cpp" />
     <ClCompile Include="ConsoleApplication24.cpp" />
+    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Drink.cpp" />
+    <ClCompile Include="Guitar.cpp" />
+    <ClCompile Include="Phone.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Book.h" />
+    <ClInclude Include="Calculator.h" />
+    <ClInclude Include="Door.h" />
+    <ClInclude Include="Drink.h" />
+    <ClInclude Include="Guitar.h" />
+    <ClInclude Include="Phone.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
