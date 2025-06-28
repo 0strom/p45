@@ -177,7 +177,7 @@ public:
 
 
     void WatchPhone() {
-        cout << brandname << " — so many things to watch\n";
+        cout << brandname << " â€” so many things to watch\n";
     }
     void LowBattery() {
         battery = 0;
