@@ -1,0 +1,224 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+class Date {
+    int day;
+    int month;
+    int year;
+
+    
+public:
+    Date(int d = 1, int m = 1, int y = 1900) : day(d), month(m), year(y) {}
+
+    void SetDate(int d, int m, int y) {
+        day = d; month = m; year = y;
+    }
+
+    string ToString() const {
+        return to_string(day) + "." + to_string(month) + "." + to_string(year);
+    }
+};
+
+
+class Address {
+    string city;
+    string street;
+    int houseNumber;
+
+public:
+    Address(string c = "", string s = "", int h = 0) : city(c), street(s), houseNumber(h) {}
+
+
+    void SetAddress(const string& c, const string& s, int h) {
+        city = c; street = s; houseNumber = h;
+   }
+
+    string ToString() const {
+        return city + ", " + street + " " + to_string(houseNumber);
+    }
+};
+
+
+
+class Array {
+    int* data;
+    unsigned int length;
+    unsigned int capacity;
+
+public:
+    Array() : data(new int[10]), length(0), capacity(10) {}
+
+    Array(const Array& other) : length(other.length), capacity(other.capacity) {
+        data = new int[capacity];
+        for (unsigned int i = 0; i < length; i++) {
+            data[i] = other.data[i];
+        }
+    }
+
+
+    ~Array() {
+        delete[] data;
+    }
+
+
+
+
+    void Add(int value) {
+        if (length == capacity) {
+            capacity *= 2;
+            int* newData = new int[capacity];
+            for (unsigned int i = 0; i < length; i++)
+                newData[i] = data[i];
+            delete[] data;
+            data = newData;
+        }
+        data[length++] = value;
+    }
+
+
+    unsigned int Size() const { return length; }
+
+    int operator[](unsigned int index) const {
+        if (index < length)
+            return data[index];
+        throw out_of_range("Index out of range");
+    }
+
+    int& operator[](unsigned int index) {
+        if (index < length)
+            return data[index];
+        throw out_of_range("Index out of range");
+    }
+};
+
+
+
+
+class Student {
+
+
+    string firstName;
+    string middleName;
+    string lastName;
+   
+
+
+    Date birthDate;
+    Address homeAddress;
+    string phoneNumber;
+
+
+
+    Array homeGrades;       
+    Array practiceGrades; 
+    Array examGrades;     
+
+    static int countStudents; 
+
+
+
+public:
+
+  
+    explicit Student() {
+        countStudents++;
+    }
+
+    
+    explicit Student(const string& ln, const string& fn, const string& mn,
+        const Date& bd, const Address& addr, const string& phone)
+        : lastName(ln), firstName(fn), middleName(mn),
+        birthDate(bd), homeAddress(addr), phoneNumber(phone)
+    {
+        countStudents++;
+    }
+
+ 
+
+    Student(const Student& other)
+        : lastName(other.lastName), firstName(other.firstName), middleName(other.middleName),
+        birthDate(other.birthDate), homeAddress(other.homeAddress), phoneNumber(other.phoneNumber),
+        homeGrades(other.homeGrades), practiceGrades(other.practiceGrades), examGrades(other.examGrades)
+    {
+        countStudents++;
+    }
+
+
+    ~Student() {
+        countStudents--;
+    }
+
+  
+    string GetLastName() const { return lastName; }
+    string GetFirstName() const { return firstName; }
+    string GetMiddleName() const { return middleName; }
+
+
+    Date GetBirthDate() const { return birthDate; }
+    Address GetHomeAddress() const { return homeAddress; }
+    string GetPhoneNumber() const { return phoneNumber; }
+
+
+    Array& GetHwGrades() { return homeGrades; }
+    Array& GetPracticeGrades() { return practiceGrades; }
+    Array& GetExamGrades() { return examGrades; }
+
+    
+    void SetLastName(const string& ln) { lastName = ln; }
+    void SetFirstName(const string& fn) { firstName = fn; }
+    void SetMiddleName(const string& mn) { middleName = mn; }
+
+    void SetBirthDate(const Date& bd) { birthDate = bd; }
+    void SetHomeAddress(const Address& addr) { homeAddress = addr; }
+    void SetPhoneNumber(const string& phone) { phoneNumber = phone; }
+
+
+
+
+    void Print() const {
+        cout << "Student: " << lastName << " " << firstName << " " << middleName << "\n";
+        cout << "Birthday: " << birthDate.ToString() << "\n";
+        cout << "Address: " << homeAddress.ToString() << "\n";
+        cout << "Phone: " << phoneNumber << "\n";
+
+        cout << "Homework Grades: ";
+        for (unsigned int i = 0; i < homeGrades.Size(); i++)
+            cout << homeGrades[i] << " ";
+        cout << "\n";
+
+        cout << "Practise Grades: ";
+        for (unsigned int i = 0; i < practiceGrades.Size(); i++)
+            cout << practiceGrades[i] << " ";
+        cout << "\n";
+
+        cout << "Exam Grades: ";
+        for (unsigned int i = 0; i < examGrades.Size(); i++)
+            cout << examGrades[i] << " ";
+        cout << "\n";
+    }
+
+
+    static int GetCount() {
+        return countStudents;
+    }
+};
+
+int Student::countStudents = 0;
+
+
+int main() {
+    Date d(15, 6, 2007);
+    Address a("Odessa", "Cool Street", 24);
+
+    Student s1("Ostrometskyi", "Denis", "Valeriyovich", d, a, "+380111111");
+
+    s1.GetHwGrades().Add(5);
+    s1.GetHwGrades().Add(4);
+    s1.GetPracticeGrades().Add(5);
+    s1.GetExamGrades().Add(3);
+    s1.Print();
+
+    cout << "ToT students: " << Student::GetCount() << "\n";
+}
