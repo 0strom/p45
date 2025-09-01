@@ -1,0 +1,140 @@
+#include <iostream>
+using namespace std;
+
+
+class Array {
+    int* data;
+    unsigned int capacity = 10;
+    unsigned int length = 0;
+
+
+
+public:
+    Array() {
+        data = new int[capacity];
+
+    }
+
+
+
+    ~Array() {
+        if (data) delete[] data;
+
+    }
+
+    void ExpandIfNeeded() {
+
+        if (length >= capacity) {
+            capacity *= 2;
+            int* temp = new int[capacity];
+            for (unsigned int i = 0; i < length; i++) {
+                temp[i] = data[i];
+            }
+            delete[] data;
+            data = temp;
+        }
+    }
+
+    // insert element
+    void Insert(int index, int value) {
+
+        if (index < 0 || index >(int)length) return;
+
+        ExpandIfNeeded();
+
+        for (int i = length - 1; i >= index; i--) {
+            data[i + 1] = data[i];
+        }
+        data[index] = value;
+        length++;
+    }
+
+    // remove first element
+    void RemoveFromFront() {
+
+        if (length == 0) return;
+        for (int i = 1; i < (int)length; i++) {
+            data[i - 1] = data[i];
+        }
+        length--;
+    }
+
+    int Front() const {
+        if (length == 0) throw "is empty";
+        return data[0];
+    }
+
+
+    int GetCount() const {
+        return length;
+    }
+
+
+    int operator[](int index) const {
+        if (index < 0 || index >= (int)length) throw "index out of range";
+        return data[index];
+    }
+
+
+    void Print() const {
+        cout << "Array elements: ";
+        for (unsigned int i = 0; i < length; i++) {
+            cout << data[i] << " ";
+        }
+        cout << "\n";
+    }
+
+};
+
+class PriorityQueue {
+    Array arr;
+
+public:
+    void Enqueue(int value) {
+       
+        int pos = 0;
+        int count = arr.GetCount();
+        while (pos < count && arr[pos] >= value) {
+            pos++;
+        }
+
+        arr.Insert(pos, value);
+    }
+
+    int Dequeue() {
+        if (arr.GetCount() == 0) throw "is empty";
+        int first = arr.Front();
+        arr.RemoveFromFront();
+        return first;
+    }
+
+    bool IsEmpty() const {
+        return arr.GetCount() == 0;
+    }
+
+    void Print() const {
+        arr.Print();
+    }
+};
+
+int main() {
+    PriorityQueue pq;
+
+    pq.Enqueue(10);
+    pq.Enqueue(22);
+    pq.Enqueue(68);
+    pq.Enqueue(404);
+    pq.Enqueue(100);
+
+    cout << "queue after adding elements:\n";
+    pq.Print();
+
+    cout << "dequeuing:\n";
+    while (!pq.IsEmpty()) {
+        cout << pq.Dequeue() << " ";
+        pq.Print();
+    }
+    cout << "\n";
+
+    return 0;
+}
