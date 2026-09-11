@@ -1,0 +1,106 @@
+#include<iostream>
+#include<Windows.h>
+#include<string>
+using namespace std;
+
+class Pet {
+protected:
+    string name;
+    int age;
+    int weight;
+
+public:
+    Pet(string name, int age, double weight)
+        : name(name), age(age), weight(weight) {
+    }
+    
+
+    void showPet() {
+        cout << "Name: " << name << "\n";
+        cout << "Age: " << age << " years\n";
+        cout << "Weight: " << weight << "\n";
+    }
+};
+
+
+
+
+
+class Cat : public Pet {
+private:
+    string sound;
+    string toy;
+
+public:
+
+    Cat(string name, int age, int weight, string sound, string toy)
+        : Pet(name, age, weight) {
+        sound = sound;
+        toy = toy;
+    }
+
+    void showCat() {
+        showPet();
+        cout << "What sound does it make: " << sound << "\n";
+        cout << "Favorite Toy: " << toy << "\n";
+            
+    }
+};
+
+
+class Dog : public Pet {
+private:
+    string sound;
+    int walkTime;
+
+public:
+
+    Dog(string name, int age, int weight, string sound, int walkTime)
+        : Pet(name, age, weight) {
+        sound = sound;
+        walkTime = walkTime;
+    }
+
+    void showDog() {
+        showPet();
+        cout << "What sound does it make: " << sound << "\n";
+        cout << "Time spend walking outside: " << walkTime << "\n";
+
+    }
+};
+
+
+class Parrot : public Pet {
+private:
+    string sound;
+    int wordsCount;
+
+public:
+
+    Parrot(string name, int age, int weight, string sound, int wordsCount)
+        : Pet(name, age, weight) {
+        sound = sound;
+        wordsCount = wordsCount;
+    }
+
+    void showParrot() {
+        showPet();
+        cout << "What sound does it make: " << sound << "\n";
+        cout << "How many words does it know: " << wordsCount << "\n";
+
+    }
+};
+
+int main() 
+{
+    Cat myCat("Murzik", 2, 5, "Meow", "Stuffed mouse");
+    Dog myDog("Ralf", 5, 30,  "Woof", 15);
+    Parrot myParrot("Rio", 1, 0.5, "Caw caw", 100);
+
+    myCat.showCat();
+    myDog.showDog();
+    myParrot.showParrot();
+
+    return 0;
+}
+
