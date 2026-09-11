@@ -1,0 +1,275 @@
+#include<iostream>
+#include<Windows.h>
+#include<string>
+using namespace std;
+
+class PC
+{
+	char* brand;
+	char* model;
+	friend class Print;
+
+
+	CPU cpu;
+	GPU gpu;
+	RAM ram;
+	SSD ssd;
+	Display display;
+	Battery battery;
+	Keyboard keyboard;
+
+};
+	
+
+
+class CPU ///////////////
+{
+	string name;
+	string frequency;
+
+public:
+	CPU()
+	{
+		name = "Intel I7";
+		frequency = "10 MHz";
+	}
+
+	CPU(const char* N, const char* F)
+	{
+		name = N;
+		frequency = F;
+	}
+	string GetName()
+	{
+		return name;
+	}
+	string GetFrequency()
+	{
+		return frequency;
+	}
+};
+
+class GPU ///////////////
+{
+	string name;
+	int capacity;
+
+public:
+	GPU()
+	{
+		name = "RTX 4090";
+		capacity = 10;
+	}
+	
+	GPU(const char* N, int C)
+	{
+		name = N;
+		capacity = C;
+	}
+	string GetName()
+	{
+		return name;
+	}
+	int GetCapacity() 
+	{
+		return capacity;
+	}
+	
+};
+
+
+
+class RAM ///////////////
+{
+	string type;
+	string speed;
+	string capacity;
+
+public:
+	RAM()
+	{
+		type = "SDRAM";
+		speed = "6000 MT/s";
+		capacity = "64 GB";
+	}
+
+	RAM(const char* T, const char* S, const char* C)
+	{
+		type = T;
+		speed = S;
+		capacity = C;
+	}
+	string GetType()
+	{
+		return type;
+	}
+	string GetSpeed()
+	{
+		return speed;
+	}
+	string GetCapacity()
+	{
+		return capacity;
+	}
+};
+
+
+
+class SSD ///////////////
+{
+	string name;
+	int capacity;
+
+public:
+	SSD()
+	{
+		name = "Samsung Pro";
+		capacity = 512;
+	}
+
+	SSD(const char* N, int C)
+	{
+		name = N;
+		capacity = C;
+	}
+	string GetName()
+	{
+		return name;
+	}
+	int GetCapacity()
+	{
+		return capacity;
+	}
+};
+
+class Mouse ///////////////
+{
+	string name;
+	int DPI;
+
+public:
+	Mouse()
+	{
+		name = "Logitech";
+		DPI = 800;
+	}
+
+	Mouse(const char* N, int D)
+	{
+		name = N;
+		DPI = D;
+	}
+	string GetName()
+	{
+		return name;
+	}
+	int GetDPI()
+	{
+		return DPI;
+	}
+};
+
+
+class Display ///////////////
+{
+	string matrix;
+	string resolution;
+
+public:
+	Display()
+	{
+		matrix = "Oled";
+		resolution = "1920x1800px";
+	}
+
+	Display(const char* M, const char* R)
+	{
+		matrix = M;
+		resolution = R;
+	}
+	string GetMatrix()
+	{
+		return matrix;
+	}
+	string GetResolution()
+	{
+		return resolution;
+	}
+};
+
+class Battery ///////////////
+{
+	int capacity;
+	string type;
+
+public:
+	Battery()
+	{
+		capacity = 100;
+		type = "Wireless";
+	}
+
+	Battery(int C, const char* T)
+	{
+		capacity = C;
+		type = T;
+	}
+	string GetCapacity()
+	{
+		return capacity;
+	}
+	string GetType()
+	{
+		return type;
+	}
+};
+
+class Keyboard ///////////////
+{
+	string layout;
+	string size;
+
+public:
+	Keyboard()
+	{
+		layout = "UK";
+		size = "40x45cm";
+	}
+
+	Keyboard(const char* L, const char* S)
+	{
+		layout = L;
+		size = S;
+	}
+	string GetLayout()
+	{
+		return layout;
+	}
+	string GetSize()
+	{
+		return size;
+	}
+};
+
+
+
+class Print
+{
+public:
+	void Output_PC(PC& obj)
+	{
+		cout << "Brand: " << obj.brand << endl;
+		cout << "Model: " << obj.model << endl;
+		obj.PC.Show();
+	}
+};
+
+int main()
+{
+	PC obj1("Apple", "Macbook Pro");
+
+	Print obj;
+	obj.Output_PC(obj1);
+
+	system("pause");
+}
