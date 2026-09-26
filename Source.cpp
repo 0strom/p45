@@ -1,261 +1,75 @@
+#include <fstream>
 #include <iostream>
 using namespace std;
 
 
-// 1
-class IOutput {
-public:
-
-    virtual ~IOutput() {}
-    virtual void Show() const = 0;
-    virtual void Show(string info) const = 0;
-};
-
-// 2
-class IMath {
-public:
-
-    virtual ~IMath() {}
-    virtual int Max() const = 0;
-    virtual int Min() const = 0;
-    virtual float Avg() const = 0;
-    virtual bool Search(int target) const = 0;
-};
-
-// 3
-class ISort {
-public:
-
-    virtual ~ISort() {}
-    virtual void SortAsc() = 0;
-    virtual void SortDesc() = 0;
-    virtual void SortByParam(bool isAsc) = 0;
-};
+int main()
+{
+    const int size = 4096;
+    char buffer[size] = {};
+    ifstream in("file.html");
 
 
+    if (in)
+    {
+        bool valid = true;
 
-class Array : public IOutput, public IMath, public ISort {
-private:
-    int arr[333];
-    int sz;
+        while (!in.eof())
+        {
+             in.read(buffer, size);
 
-public:
-    Array(int a[], int n) {
-        sz = n;
-
-        for (int i = 0; i < sz; i++) {
-            arr[i] = a[i];
-        }
-    }
+             int count = in.gcount();
 
 
+            for (int i = 0; i < count; i++)
+            {
 
-    //////////////////////////
-  
-    void Show() const override {
-        cout << "Array:";
-        for (int i = 0; i < sz; i++) {
-            cout << arr[i] << " ";
-        }
-        cout << endl;
-    }
+                if (buffer[i] == '<')
 
-    void Show(string info) const override {
-        cout  << info;
-        for (int i = 0; i < sz; i++) {
-            cout << arr[i] << " ";
-        }
+                {
+                     bool found = false;
 
-        cout << endl;
-    }
+                    for (int j = i + 1; j < count; j++)
+                    {
+                        if (buffer[j] == '>')
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
 
 
-    //////////////////////////
-    int Max() const override {
-        int mx = arr[0];
-        for (int i = 1; i < sz; i++) {
-            if (arr[i] > mx) {
-                mx = arr[i];
-            }
-        }
-
-        return mx;
-    }
-
-    int Min() const override {
-        int mn = arr[0];
-        for (int i = 1; i < sz; i++) {
-            if (arr[i] < mn) {
-                mn = arr[i];
-            }
-        }
-
-        return mn;
-    }
-
-    float Avg() const override {
-        float sum = 0;
-        for (int i = 0; i < sz; i++) {
-            sum += arr[i];
-        }
-        return sum / sz;
-    }
-
-    bool Search(int target) const override {
-        for (int i = 0; i < sz; i++) {
-            if (arr[i] == target) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-
-    //////////////////////////
-    void SortAsc() override {
-        for (int i = 0; i < sz - 1; i++) {
-            for (int j = 0; j < sz - i - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
+                    if (!found)
+                    {
+                        valid = false;
+                        break;
+                    }
                 }
             }
+
+            if (!valid)
+                break;
+        }
+
+
+        in.close();
+
+        if (valid)
+        {
+            cout << "HTML is valid" << endl;
+        }
+        else
+        {
+            cout << "HTML isnt valid" << endl;
         }
     }
 
-    void SortDesc() override {
-        for (int i = 0; i < sz - 1; i++) {
-            for (int j = 0; j < sz - i - 1; j++) {
-                if (arr[j] < arr[j + 1]) {
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
+    else
+    {
+        cout << "Error1" << endl;
     }
 
-    void SortByParam(bool isAsc) override {
 
-        if (isAsc) {
-            SortAsc();
-        }
-
-        else {
-            SortDesc();
-        }
-    }
-};
-
-
-
-
-
-
-
-// 5
-
-
-class IDrivable {
-public:
-    virtual ~IDrivable() {}
-    virtual void StartEngine() = 0;
-    virtual void StopEngine() = 0;
-    virtual void Drive() = 0;
-};
-
-
-
-
-class Car : public IDrivable {
-private:
-    string name;
-
-public:
-    Car(string n) {
-        name = n;
-    }
-
-    void StartEngine() override {
-        cout <<  "Start" << endl;
-    }
-    void StopEngine() override {
-        cout <<  "Stop" << endl;
-    }
-    void Drive() override {
-        cout <<  "Drive" << endl;
-    }
-};
-
-
-
-
-class Motorcycle : public IDrivable {
-private:
-    string name;
-
-public:
-    Motorcycle(string n) {
-        name = n;
-    }
-
-    void StartEngine() override {
-        cout << "Start" << endl;
-    }
-    void StopEngine() override {
-        cout << "Stop" << endl;
-    }
-    void Drive() override {
-        cout << "Drive" << endl;
-    }
-
-};
-
-
-
-
-int main() {
-  
-    //////
-    int data[] = { 66, -1, 42, 55, 0, 101, 99, 88, 22, 333 };
-    Array a(data, 10);
-
-    a.Show();
-    a.Show("Initial Data");
-
-    cout << "Max:" << a.Max() << endl;
-    cout << "Min:" << a.Min() << endl;
-    cout << "Avg:" << a.Avg() << endl;
-    cout << "Search 42:" << (a.Search(42) ? "Found" : "Not Found") << endl;
-    cout << "Search 77:" << (a.Search(77) ? "Found" : "Not Found") << endl;
-
-
-    a.SortAsc();
-    a.Show("Ascending");
-
-    a.SortDesc();
-    a.Show("Descending");
-
-    a.SortByParam(true);
-    a.Show("SortByParam(true)");
-
-
-
-    //////////
-    Car myCar("Tesla");
-    Motorcycle myBike("Yamaha");
-
-    myCar.StartEngine();
-    myCar.Drive();
-    myCar.StopEngine();
-
-    cout << endl;
-
-    myBike.StartEngine();
-    myBike.Drive();
-    myBike.StopEngine();
 
     return 0;
 }
