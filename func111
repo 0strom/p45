@@ -1,0 +1,121 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
+struct Min {
+    bool operator()(int a, int b) const {
+        return a < b;
+    }
+};
+
+
+
+struct Max {
+    bool operator()(int a, int b) const {
+        return a < b; 
+    }
+};
+
+
+
+
+struct SortDescend {
+    bool operator()(int a, int b) const {
+        return a > b;
+    }
+};
+
+
+struct SortAscend {
+    bool operator()(int a, int b) const {
+        return a < b;
+    }
+};
+
+
+class AddConst {
+private:
+    int value;
+public:
+    explicit AddConst(int val) : value(val) {}
+    int operator()(int x) const {
+        return x + value;
+    }
+};
+
+
+class SubtractConst {
+private:
+    int value;
+public:
+    explicit SubtractConst(int val) : value(val) {}
+    int operator()(int x) const {
+        return x - value;
+    }
+};
+
+
+class Equal {
+private:
+    int target;
+public:
+    explicit Equal(int val) : target(val) {}
+    bool operator()(int x) const {
+        return x == target;
+    }
+};
+
+
+
+void printVector(const std::vector<int>& vec, const std::string& label) {
+    std::cout << label << ": ";
+    for (int num : vec) {
+        std::cout << num << " ";
+    }
+    std::cout << "\n";
+}
+
+int main() {
+    vector<int> numbers = { 15, -3, 42, 8, -3, 10, 8, 23 };
+    printVector(numbers, "vector");
+
+
+    auto min_it = min_element(numbers.begin(), numbers.end(), Min());
+    if (min_it != numbers.end()) {
+        cout << "Min value: " << *min_it << "\n";
+    }
+
+
+    auto max_it = max_element(numbers.begin(), numbers.end(), Max());
+    if (max_it != numbers.end()) {
+        cout << "Max value: " << *max_it << "\n";
+    }
+
+   
+    sort(numbers.begin(), numbers.end(), SortDescend());
+    printVector(numbers, "Sort by descending: ");
+
+   
+    sort(numbers.begin(), numbers.end(), SortAscend());
+    printVector(numbers, "Sort by ascending: ");
+
+  
+    transform(numbers.begin(), numbers.end(), numbers.begin(), AddConst(1));
+    printVector(numbers, "Add 1 to each element");
+
+   
+    transform(numbers.begin(), numbers.end(), numbers.begin(), SubtractConst(1));
+    printVector(numbers, "Substract 1 from each element");
+
+ 
+    int value_to_remove = 3;
+    numbers.erase(
+        remove_if(numbers.begin(), numbers.end(), Equal(value_to_remove)),
+        numbers.end()
+    );
+    printVector(numbers, "Equal " + to_string(value_to_remove));
+
+    return 0;
+}
