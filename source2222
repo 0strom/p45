@@ -1,4 +1,130 @@
-dl << endl;
+#include <iostream>
+using namespace std;
+
+
+
+void task1() {
+    int arr[] = { 10, 100, 99 };
+    int size = 3;
+    int totalSum = 0;
+
+    for (int i = 0; i < size; i++) {
+        int temp = arr[i];
+
+        if (temp < 0) {
+            temp = -temp;
+        }
+
+
+        if (temp == 0) {
+            totalSum += 0;
+        }
+
+       
+        while (temp > 0) {
+            totalSum += temp % 10; 
+            temp /= 10;            
+        }
+    }
+
+    cout << "result: " << totalSum << endl << endl;
+}
+
+
+void task2() {
+    int arr[] = { -5, 10, 0, 9, -3, 4 };
+    int size = 6;
+
+    double sum = 0;
+    int count = 0;
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] > 0) {
+            sum += arr[i];
+            count++;
+        }
+    }
+
+    if (count == 0) {
+        cout << "no positive numbs" << endl << endl;
+    }
+    else {
+        cout << "result: " << sum / count << endl << endl;
+    }
+}
+
+
+void task3() {
+    int arr[] = { -10, 5, -2};
+    int size = 3;
+
+    int maxNeg = 0;
+    int maxIdx = -1;
+    bool found = false;
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] < 0) {
+            if (!found || arr[i] > maxNeg) {
+                maxNeg = arr[i];
+                maxIdx = i;
+                found = true;
+            }
+        }
+    }
+
+    if (!found) {
+        cout << "no negative numbs" << endl << endl;
+    }
+    else {
+        cout << "Value: " << maxNeg << ", Index: " << maxIdx << endl << endl;
+    }
+}
+
+
+void task4() {
+  
+    int arr[] = { 1, 3, 2, 3, 4, 6, 2, 1, 5, 3};
+    int size = 10;
+
+    int mostFreqNum = arr[0];
+    int maxCount = 0;
+
+    
+    for (int i = 0; i < size; i++) {
+        int count = 0;
+        for (int j = 0; j < size; j++) {
+            if (arr[i] == arr[j]) {
+                count++;
+            }
+        }
+        if (count > maxCount) {
+            maxCount = count;
+            mostFreqNum = arr[i];
+        }
+    }
+
+    cout << "result: " << mostFreqNum << endl << endl;
+}
+
+
+void task5() {
+    int arr[] = { 10, 9, 4, 12, 5, 15, 8 };
+    int size = 7;
+
+    int maxVal = 0;
+    bool found = false;
+
+    for (int i = 1; i < size; i += 2) {
+        if (arr[i] % 3 == 0) {
+            if (!found || arr[i] > maxVal) {
+                maxVal = arr[i];
+                found = true;
+            }
+        }
+    }
+
+    if (!found) {
+        cout << "no required numbs" << endl << endl;
     }
     else {
         cout << "Biggest number: " << maxVal << endl << endl;
