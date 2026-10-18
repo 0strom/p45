@@ -1,5 +1,97 @@
-﻿using System;
--100, 101);
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        ////////////
+        double[] a = new double[5];
+
+        Console.WriteLine("A:");
+        for (int i = 0; i < 5; i++)
+        {
+            Console.Write($"a[{i}] = ");
+            a[i] = Convert.ToDouble(Console.ReadLine());
+        }
+
+        double[,] b = new double[3, 4];
+        Random rnd = new Random();
+        for (int i = 0; i < 3; i++)
+        {
+
+            for (int j = 0; j < 4; j++)
+            {
+                b[i, j] = rnd.Next(-10, 10);
+            }
+        }
+
+     
+        Console.Write("Array A: ");
+        for (int i = 0; i < 5; i++) Console.Write(a[i] + " ");
+        Console.WriteLine();
+
+
+        Console.WriteLine("Array B:");
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 4; j++) Console.Write(b[i, j] + "\t");
+            Console.WriteLine();
+        }
+
+
+        double min = a[0], max = a[0];
+        double sum = 0, prod = 1;
+        double sumEvenA = 0;
+
+        for (int i = 0; i < 5; i++)
+        {
+            if (a[i] < min) min = a[i];
+            if (a[i] > max) max = a[i];
+            sum += a[i];
+            prod *= a[i];
+            if (a[i] % 2 == 0) sumEvenA += a[i];
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if (b[i, j] < min) min = b[i, j];
+                if (b[i, j] > max) max = b[i, j];
+                sum += b[i, j];
+                prod *= b[i, j];
+            }
+        }
+
+        double sumOddColsB = 0;
+        for (int j = 0; j < 4; j++)
+        {
+            if (j % 2 != 0) 
+            {
+                for (int i = 0; i < 3; i++) sumOddColsB += b[i, j];
+            }
+        }
+
+        Console.WriteLine($"Min: {min}, Max: {max}, Sum: {sum}, Product: {prod}");
+        Console.WriteLine($"Sum of even elements in A: {sumEvenA}");
+        Console.WriteLine($"Sum of odd columns in B: {sumOddColsB}");
+
+
+        ////////////
+        int[,] m2 = new int[5, 5];
+        int minV = 101, maxV = -101;
+        int minR = 0, minC = 0, maxR = 0, maxC = 0;
+
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                m2[i, j] = rnd.Next(-100, 101);
                 if (m2[i, j] < minV) { minV = m2[i, j]; minR = i; minC = j; }
                 if (m2[i, j] > maxV) { maxV = m2[i, j]; maxR = i; maxC = j; }
             }
