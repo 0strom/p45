@@ -2,9 +2,6 @@
 
 using System;
 
-
-
-
 class Website
 {
     public string Name { get; set; }
@@ -287,91 +284,5 @@ class Program
         Console.ReadKey();
     }
 
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    class TemperatureArray
-    {
-        public double Monday { get; set; }
-        public double Tuesday { get; set; }
-        public double Wednesday { get; set; }
-        public double Thursday { get; set; }
-        public double Friday { get; set; }
-        public double Saturday { get; set; }
-        public double Sunday { get; set; }
-
-        public double this[int day]
-        {
-            get
-            {
-                if (day == 1) return Monday;
-                if (day == 2) return Tuesday;
-                if (day == 3) return Wednesday;
-                if (day == 4) return Thursday;
-                if (day == 5) return Friday;
-                if (day == 6) return Saturday;
-                if (day == 7) return Sunday;
-
-                throw new Exception("error");
-            }
-            set
-            {
-                if (day == 1) Monday = value;
-                else if (day == 2) Tuesday = value;
-                else if (day == 3) Wednesday = value;
-                else if (day == 4) Thursday = value;
-                else if (day == 5) Friday = value;
-                else if (day == 6) Saturday = value;
-                else if (day == 7) Sunday = value;
-                else throw new Exception("error");
-            }
-        }
-
-        public double Average()
-        {
-            return (Monday + Tuesday + Wednesday +
-                    Thursday + Friday + Saturday + Sunday) / 7;
-        }
-    }
-
-    class Program2
-    {
-        static void Main()
-        {
-            TemperatureArray temp = new TemperatureArray();
-            for (int i = 1; i <= 7; i++)
-            {
-                Console.Write("Temperature" + i + ": ");
-                temp[i] = Convert.ToDouble(Console.ReadLine());
-            }
-
-
-            Console.WriteLine("Avg temperature: " + temp.Average());
-
-            Console.Write("Day 1-7: ");
-            int day = Convert.ToInt32(Console.ReadLine());
-
-
-            Console.Write("New temperature: ");
-            temp[day] = Convert.ToDouble(Console.ReadLine());
-
-
-            Console.WriteLine("New Avg: " + temp.Average());
-        }
-    }
 
 }
