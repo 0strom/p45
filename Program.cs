@@ -2,287 +2,229 @@
 
 using System;
 
-class Website
+
+class BookList
 {
-    public string Name { get; set; }
-    public string Path { get; set; }
-    public string Description { get; set; }
-    public string Address { get; set; }
+    public string[] Books = new string[100];
+    public int Count = 0;
 
-    public void Input()
+    public string this[int i]
     {
-        Console.Write("Website name: ");
-        Name = Console.ReadLine();
-
-        Console.Write("Website path: ");
-        Path = Console.ReadLine();
-
-        Console.Write("Description: ");
-        Description = Console.ReadLine();
-
-        Console.Write("Website address: ");
-        Address = Console.ReadLine();
+        get { return Books[i]; }
+        set { Books[i] = value; }
     }
 
-    public override string ToString()
+    public static BookList operator +(BookList b, string name)
     {
-        return "Name: " + Name + "\n" +
-               "Path: " + Path + "\n" +
-               "Description: " + Description + "\n" +
-               "Address: " + Address;
+        b.Books[b.Count] = name;
+        b.Count++;
+        return b;
+    }
+
+    public static BookList operator -(BookList b, string name)
+    {
+        for (int i = 0; i < b.Count; i++)
+        {
+            if (b.Books[i] == name)
+            {
+                for (int j = i; j < b.Count - 1; j++)
+                    b.Books[j] = b.Books[j + 1];
+
+                b.Count--;
+                break;
+            }
+        }
+
+        return b;
     }
 }
 
-
-
-class Journal
+class Fraction
 {
-    private string name = "";
-    private int year;
-    private string description = "";
-    private string phone = "";
-    private string email = "";
-    private int employees;
-
-   
-
-    public string Name
+    public int N { get; set; }
+    public int D
     {
-        get { return name; }
-        set { name = value; }
-    }
-    public int Year
-    {
-        get { return year; }
-        set { year = value; }
-    }
-    public string Description
-    {
-        get { return description; }
-        set { description = value; }
-    }
-    public string Phone
-    {
-        get { return phone; }
-        set { phone = value; }
-    }
-    public string Email
-    {
-        get { return email; }
-        set { email = value; }
-    }
-
-    public int Employees
-    {
-        get { return employees; }
+        get { return d; }
         set
         {
-            if (value < 0)
-                throw new ArgumentException(
-                    "Employees must be real");
-
-            employees = value;
+            if (value == 0)
+                throw new Exception("Cant be 0");
+            d = value;
         }
     }
 
+    private int d;
 
-    public void Input()
+    public Fraction(int n, int d)
     {
-        Console.Write("Name: ");
-        Name = Console.ReadLine();
-
-        Console.Write("Year: ");
-        Year = Convert.ToInt32(Console.ReadLine());
-
-        Console.Write("Description: ");
-        Description = Console.ReadLine();
-
-        Console.Write("Phone: ");
-        Phone = Console.ReadLine();
-
-        Console.Write("Email: ");
-        Email = Console.ReadLine();
-
-        Console.Write("Employees: ");
-        Employees = Convert.ToInt32(Console.ReadLine());
+        N = n;
+        D = d;
     }
+
 
     public override string ToString()
     {
-        string result = "Journal name: " + Name + "\n";
-        result += "Year: " + Year + "\n";
-        result += "Description: " + Description + "\n";
-        result += "Phone: " + Phone + "\n";
-        result += "Email: " + Email + "\n";
-        result += "Employees: " + Employees;
-
-        return result;
+        return N + "/" + D;
     }
 
-    
-    public static Journal operator +(Journal journal, int amount)
+    public static Fraction operator +(Fraction a, Fraction b)
     {
-        return new Journal
-        {
-            Name = journal.Name,
-            Year = journal.Year,
-            Description = journal.Description,
-            Phone = journal.Phone,
-            Email = journal.Email,
-            Employees = checked(journal.Employees + amount)
-        };
+        return new Fraction(a.N * b.D + b.N * a.D, a.D * b.D);
     }
 
-   
-    public static Journal operator -(Journal journal, int amount)
+    public static Fraction operator -(Fraction a, Fraction b)
     {
-        return new Journal
-        {
-            Name = journal.Name,
-            Year = journal.Year,
-            Description = journal.Description,
-            Phone = journal.Phone,
-            Email = journal.Email,
-            Employees = checked(journal.Employees - amount)
-        };
+        return new Fraction(a.N * b.D - b.N * a.D, a.D * b.D);
     }
 
-    
-
-    public static bool operator ==(Journal a, Journal b)
+    public static Fraction operator *(Fraction a, Fraction b)
     {
-        if (ReferenceEquals(a, b))
-            return true;
-
-        if (a is null || b is null)
-            return false;
-
-        return a.Employees == b.Employees;
+        return new Fraction(a.N * b.N, a.D * b.D);
     }
 
-    
+    public static Fraction operator /(Fraction a, Fraction b)
+    {
+        return new Fraction(a.N * b.D, a.D * b.N);
+    }
 
-    public static bool operator !=(Journal a, Journal b)
+    public static bool operator ==(Fraction a, Fraction b)
+    {
+        return a.N * b.D == b.N * a.D;
+    }
+
+    public static bool operator !=(Fraction a, Fraction b)
     {
         return !(a == b);
     }
 
-    
-    public static bool operator >(Journal a, Journal b)
+
+    public override bool Equals(object obj)
     {
-        if (a is null || b is null)
-            return false;
-
-        return a.Employees > b.Employees;
-    }
-
-   
-    public static bool operator <(Journal a, Journal b)
-    {
-        if (a is null || b is null)
-            return b is not null;
-
-        return b is not null && a.Employees < b.Employees;
-    }
-
-   
-    public override bool Equals(object? obj)
-    {
-        if (obj is not Journal other)
-            return false;
-
-        return Employees == other.Employees;
+        if (obj is Fraction f)
+            return this == f;
+        return false;
     }
 
     public override int GetHashCode()
     {
-        return Employees.GetHashCode();
+        return N.GetHashCode() + D.GetHashCode();
+    }
+
+    public Fraction Reduce()
+    {
+        int a = Math.Abs(N);
+        int b = Math.Abs(D);
+
+        while (b != 0)
+        {
+            int t = b;
+            b = a % b;
+            a = t;
+        }
+
+        return new Fraction(N / a, D / a);
     }
 }
 
-
-
-
-class Shop
+class USD
 {
-    public string Name { get; set; }
-    public string Address { get; set; }
-    public string Description { get; set; }
-    public string Phone { get; set; }
-    public string Email { get; set; }
+    public double Amount { get; set; }
+    public double Rate { get; set; } = 1;
+    public string Name { get; set; } = "USD";
 
-    public void Input()
+    public USD(double amount)
     {
-        Console.Write("Shop name: ");
-        Name = Console.ReadLine();
-
-        Console.Write("Shop address: ");
-        Address = Console.ReadLine();
-
-        Console.Write("Shop description: ");
-        Description = Console.ReadLine();
-
-        Console.Write("Phone: ");
-        Phone = Console.ReadLine();
-
-        Console.Write("Email: ");
-        Email = Console.ReadLine();
+        Amount = amount;
     }
 
-    public override string ToString()
+    public static implicit operator EUR(USD u)
     {
-        return "Name: " + Name + "\n" +
-               "Address: " + Address + "\n" +
-               "Description: " + Description + "\n" +
-               "Phone: " + Phone + "\n" +
-               "Email: " + Email;
+        return new EUR(u.Amount / 1.08);
+    }
+
+    public static explicit operator GBP(USD u)
+    {
+        return new GBP(u.Amount / 1.25);
     }
 }
 
+class EUR
+{
+    public double Amount { get; set; }
+    public double Rate { get; set; } = 1.08;
+    public string Name { get; set; } = "EUR";
 
+    public EUR(double amount)
+    {
+        Amount = amount;
+    }
 
+    public static implicit operator USD(EUR e)
+    {
+        return new USD(e.Amount * e.Rate);
+    }
+}
 
+class GBP
+{
+    public double Amount { get; set; }
+    public double Rate { get; set; } = 1.25;
+    public string Name { get; set; } = "GBP";
+
+    public GBP(double amount)
+    {
+        Amount = amount;
+    }
+
+    public static explicit operator USD(GBP g)
+    {
+        return new USD(g.Amount * g.Rate);
+    }
+}
 
 class Program
 {
     static void Main()
     {
+        ///////////
+        BookList books = new BookList();
 
-        Website website = new Website();
+        books = books + "Animal farm";
+        books = books + "Romeo and Juliet";
+        books = books + "The metamorphosis";
 
-        Console.WriteLine("Website info:");
-        website.Input();
-        Console.WriteLine("\nWebsite info:");
-        Console.WriteLine(website);
+        Console.WriteLine("Books:");
+        for (int i = 0; i < books.Count; i++)
+            Console.WriteLine(books[i]);
 
+        Console.WriteLine("First book: " + books[0]);
+        books = books - "Animal farm";
+        Console.WriteLine("Has Romeo and Juliet: " + books.Contains("Romeo and Juliet"));
 
-        Journal j1 = new Journal();
-        j1.Input();
+        ///////////
+        Fraction f1 = new Fraction(1, 2);
+        Fraction f2 = new Fraction(1, 3);
 
-        Journal j2 = new Journal();
-        j2.Input();
+        Console.WriteLine("\nFractions:");
+        Console.WriteLine(f1 + f2);
+        Console.WriteLine(f1 - f2);
+        Console.WriteLine(f1 * f2);
+        Console.WriteLine(f1 / f2);
+        Console.WriteLine(f1 == f2);
+        Console.WriteLine(f1 != f2);
+        Console.WriteLine(new Fraction(4, 6).Reduce());
 
-        Console.WriteLine(j1);
-        Console.WriteLine(j2);
+        ///////////
+        USD dollars = new USD(100);
+        EUR euros = dollars;
+        GBP pounds = (GBP)dollars;
 
-        Console.WriteLine("Add: " + (j1 + 3).Employees);
-        Console.WriteLine("Remove: " + (j1 - 2).Employees);
+        Console.WriteLine("\nYour currency:");
+        Console.WriteLine(dollars.Amount + " " + dollars.Name);
+        Console.WriteLine(euros.Amount + " " + euros.Name);
+        Console.WriteLine(pounds.Amount + " " + pounds.Name);
 
-        Console.WriteLine("Equal: " + (j1 == j2));
-        Console.WriteLine("Not equal: " + (j1 != j2));
-        Console.WriteLine("Greater: " + (j1 > j2));
-        Console.WriteLine("Smaller: " + (j1 < j2));
-        Console.WriteLine("Equals: " + j1.Equals(j2));
-
-        Shop shop = new Shop();
-
-        Console.WriteLine("Shop info:");
-        shop.Input();
-        Console.WriteLine("\nShop info:");
-        Console.WriteLine(shop);
-
-        Console.ReadKey();
+        USD backToDollars = euros;
+        Console.WriteLine(backToDollars.Amount + " " + backToDollars.Name);
     }
-
-
 }
