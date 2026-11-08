@@ -1,0 +1,199 @@
+using System;
+using System.Collections.Generic;
+
+// 
+class Device
+{
+    public string name;
+    public string desc;
+
+    public Device(string name, string desc)
+    {
+        this.name = name;
+        this.desc = desc;
+    }
+
+
+
+    public virtual void Sound()
+    {
+        Console.WriteLine("beep");
+    }
+
+
+    public virtual void Show()
+    {
+        Console.WriteLine("Name: " + name);
+    }
+
+
+    public virtual void Desc()
+    {
+        Console.WriteLine("Desc: " + desc);
+    }
+}
+
+
+class Kettle : Device
+{
+    public Kettle(string name, string desc) : base(name, desc) { }
+
+    public override void Sound()
+    {
+        Console.WriteLine("shhhhh");
+    }
+}
+
+
+class Microwave : Device
+{
+    public Microwave(string name, string desc) : base(name, desc) { }
+
+    public override void Sound()
+    {
+        Console.WriteLine("mmmmmm BEEP BEEP");
+    }
+}
+
+
+class Car : Device
+{
+    public Car(string name, string desc) : base(name, desc) { }
+
+    public override void Sound()
+    {
+        Console.WriteLine("vroom vroom");
+    }
+}
+
+
+class Steamboat : Device
+{
+    public Steamboat(string name, string desc) : base(name, desc) { }
+
+    public override void Sound()
+    {
+        Console.WriteLine("WHOOOOOO");
+    }
+}
+
+
+// 
+class Course
+{
+    public string Name;
+    public int Duration;
+
+    public Course(string name, int duration)
+    {
+        Name = name;
+        Duration = duration;
+    }
+
+    public override string ToString()
+    {
+        return "Course: " + Name + ", " + Duration + " hours";
+    }
+}
+
+
+class OnlineCourse : Course
+{
+    public string Platform;
+
+    public OnlineCourse(string name, int duration, string platform) : base(name, duration)
+    {
+        Platform = platform;
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + " on " + Platform;
+    }
+}
+
+
+// 
+abstract class Product
+{
+    public string name;
+    public double price;
+
+    public Product(string name, double price)
+    {
+        this.name = name;
+        this.price = price;
+    }
+
+    public abstract double CalculateDiscount();
+}
+
+
+class Electronics : Product
+{
+    public Electronics(string name, double price) : base(name, price) { }
+
+    public override double CalculateDiscount()
+    {
+        return price * 0.15;
+    }
+}
+
+
+class Furniture : Product
+{
+    public Furniture(string name, double price) : base(name, price) { }
+
+    public override double CalculateDiscount()
+    {
+    
+        return price * 0.10;
+
+    }
+}
+
+
+
+class MainClass
+{
+    public static void Main(string[] args)
+    {
+     
+        Device[] list = new Device[4];
+        list[0] = new Kettle("MyKettle", "metal, 2L");
+        list[1] = new Microwave("LG", "700w");
+        list[2] = new Car("BMW", "old one");
+        list[3] = new Steamboat("Titanic", "big boat");
+
+
+        foreach (Device d in list)
+        {
+
+            d.Show();
+            d.Desc();
+            d.Sound();
+            Console.WriteLine();
+
+        }
+
+
+   
+        Course c1 = new Course("Math", 30);
+        OnlineCourse c2 = new OnlineCourse("C#", 50, "YouTube");
+
+        Console.WriteLine(c1.ToString());
+        Console.WriteLine(c2.ToString());
+        Console.WriteLine();
+
+
+        List<Product> prods = new List<Product>();
+        prods.Add(new Electronics("Phone", 500));
+        prods.Add(new Furniture("Table", 150));
+
+        foreach (Product p in prods)
+        {
+            double disc = p.CalculateDiscount();
+            Console.WriteLine(p.name + " costs " + p.price + ", discount is " + disc);
+        }
+    }
+}
